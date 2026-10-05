@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>A Celebration Under The Stars • 06 October</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-primary: #f5d77f;
+      --gold-deep: #c9933e;
+      --gold-glow: rgba(245, 215, 127, 0.45);
+      --marigold: #ff9933;
+      --rose-petals: #e63946;
+      --deep-night: #030308;
+      --pandal-royal: #16041a;
+      --pandal-crimson: #2b040c;
+      --paper-cream: #fbf7ee;
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--deep-night);
+      color: #fff;
+      font-family: var(--font-body);
+      position: relative;
+    }
+
+    #universe-canvas, #fireworks-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    #fireworks-canvas {
+      z-index: 30;
+    }
+
+    .ambient-lens-flare {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 600px;
+      height: 600px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255,190,80,0.12) 0%, rgba(210,80,180,0.04) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      filter: blur(40px);
+    }
+
+    .hud-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-btn {
+      background: rgba(18, 14, 28, 0.65);
+      border: 1px solid rgba(245, 215, 127, 0.3);
+      color: var(--gold-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .hud-btn:hover {
+      border-color: var(--gold-primary);
+      transform: scale(1.08);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    .scene-progress-container {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .scene-counter {
+      font-family: var(--font-ui);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245, 215, 127, 0.7);
+    }
+
+    .progress-track {
+      width: 160px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 5%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-deep), var(--gold-primary));
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 8px var(--gold-primary);
+    }
+
+    #experience-viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1200px;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .scene-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.96) translateZ(-40px);
+      transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                  transform 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                  filter 1s ease;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .scene-frame.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateZ(0);
+      filter: blur(0px);
+      pointer-events: auto;
+    }
+
+    .scene-frame.exit {
+      opacity: 0;
+      transform: scale(1.08) translateZ(60px);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    /* Common Typography & Buttons */
+    .cinematic-title {
+      font-family: var(--font-display);
+      color: var(--gold-primary);
+      text-align: center;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-shadow: 0 0 25px rgba(245, 215, 127, 0.5);
+      margin-bottom: 12px;
+    }
+
+    .cinematic-sub {
+      font-family: var(--font-body);
+      font-size: 1.35rem;
+      font-style: italic;
+      color: #f0e6d6;
+      text-align: center;
+      max-width: 580px;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+    }
+
+    .glow-btn {
+      position: relative;
+      background: linear-gradient(135deg, rgba(38, 20, 48, 0.8), rgba(64, 24, 40, 0.8));
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 15px 36px;
+      border-radius: 40px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 215, 127, 0.2);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+    }
+
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(245, 215, 127, 0.25) 0%, transparent 60%);
+      opacity: 0;
+      transform: scale(0.6);
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .glow-btn:hover {
+      transform: translateY(-2px);
+      border-color: #fff;
+      color: #fff;
+      box-shadow: 0 6px 30px rgba(245, 215, 127, 0.45);
+    }
+
+    .glow-btn:hover::before {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #scene-0 .intro-star-particle {
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 20px 4px #ffea9f;
+      animation: pulseParticle 2.5s infinite alternate ease-in-out;
+      margin-bottom: 30px;
+    }
+
+    @keyframes pulseParticle {
+      0% { transform: scale(1); box-shadow: 0 0 12px 2px #ffea9f; }
+      100% { transform: scale(1.8); box-shadow: 0 0 35px 8px #ffffff; }
+    }
+
+    .fade-sequence-line {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      font-size: 1.8rem;
+    }
+
+    .fade-sequence-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .moon-sphere {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffef8 0%, #ecdcb0 55%, #c5aa6e 85%, #8c6e3b 100%);
+      box-shadow: 0 0 60px 15px rgba(245, 215, 127, 0.45), inset -10px -10px 25px rgba(0,0,0,0.25);
+      position: relative;
+      margin-bottom: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .moon-inner-date {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.28em;
+      color: #4a3818;
+      font-weight: 700;
+      opacity: 0.75;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+    }
+
+    .horizon-pandal-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+    }
+
+    .distant-pandal-silhouette {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(0deg, rgba(240, 140, 30, 0.35) 0%, rgba(200, 50, 120, 0.15) 60%, transparent 100%);
+      clip-path: polygon(50% 0%, 58% 28%, 85% 55%, 100% 100%, 0% 100%, 15% 55%, 42% 28%);
+      filter: drop-shadow(0 0 25px rgba(255, 160, 40, 0.6));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .horizon-lantern-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 15px;
+    }
+
+    .distant-lantern-dot {
+      width: 6px;
+      height: 9px;
+      background: #ffb74d;
+      border-radius: 4px;
+      box-shadow: 0 0 12px 3px #ff9800;
+      animation: flicker 1.8s infinite alternate ease-in-out;
+    }
+
+    .distant-lantern-dot:nth-child(even) { animation-delay: 0.7s; }
+
+    @keyframes flicker {
+      0% { opacity: 0.6; transform: translateY(0); }
+      100% { opacity: 1; transform: translateY(-3px); }
+    }
+
+    .gate-arch-container {
+      position: relative;
+      width: 320px;
+      height: 380px;
+      border: 3px solid rgba(245, 215, 127, 0.5);
+      border-top-left-radius: 160px;
+      border-top-right-radius: 160px;
+      background: linear-gradient(180deg, rgba(50, 10, 40, 0.4) 0%, rgba(18, 4, 25, 0.8) 100%);
+      box-shadow: 0 0 45px rgba(245, 215, 127, 0.25), inset 0 0 35px rgba(255, 153, 51, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 40px;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
+    .marigold-garland {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 10px;
+    }
+
+    .garland-flower {
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, #ffe600 20%, var(--marigold) 80%);
+      border-radius: 50%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .gate-pillar {
+      position: absolute;
+      bottom: 0;
+      width: 24px;
+      height: 75%;
+      background: linear-gradient(90deg, #3d1b11, #8f4d1c, #3d1b11);
+      border: 1px solid var(--gold-deep);
+    }
+
+    .gate-pillar.left { left: 10px; }
+    .gate-pillar.right { right: 10px; }
+
+    .hanging-pandal-lamp {
+      width: 20px;
+      height: 30px;
+      background: radial-gradient(circle, #fff7c2 10%, #ff9800 80%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 18px 4px #ff9800;
+      margin: 15px auto;
+      animation: sway 3s infinite alternate ease-in-out;
+      transform-origin: top center;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
+
+    .walkway-perspective {
+      position: relative;
+      width: 320px;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      perspective: 400px;
+      margin-bottom: 25px;
+    }
+
+    .walkway-floor {
+      width: 260px;
+      height: 220px;
+      background: linear-gradient(0deg, rgba(245, 215, 127, 0.25) 0%, rgba(30, 8, 30, 0.4) 100%);
+      transform: rotateX(60deg);
+      border-left: 2px dashed rgba(245, 215, 127, 0.4);
+      border-right: 2px dashed rgba(245, 215, 127, 0.4);
+      position: relative;
+      box-shadow: 0 0 40px rgba(255, 153, 51, 0.15);
+    }
+
+    .diya-node {
+      position: absolute;
+      width: 16px;
+      height: 10px;
+      background: #8b3a0f;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 0 15px 3px #ffaa00;
+    }
+
+    .diya-node::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 4px;
+      width: 8px;
+      height: 12px;
+      background: radial-gradient(circle, #ffffff, #ffb300 60%, transparent 100%);
+      border-radius: 50% 50% 20% 20%;
+      animation: flameWiggle 0.4s infinite alternate ease-in-out;
+    }
+
+    @keyframes flameWiggle {
+      0% { transform: scale(0.9) skewX(-3deg); }
+      100% { transform: scale(1.1) skewX(3deg); }
+    }
+
+    .pandal-stage-mock {
+      position: relative;
+      width: 310px;
+      height: 230px;
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 12px;
+      background: #08030c;
+      overflow: hidden;
+      margin-bottom: 24px;
+      transition: background 1.5s ease, box-shadow 1.5s ease;
+    }
+
+    .pandal-stage-mock.fully-lit {
+      background: radial-gradient(circle at center, #2e0827 0%, #0d0112 100%);
+      box-shadow: 0 0 60px rgba(245, 215, 127, 0.35);
+    }
+
+    .bulb-string {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      opacity: 0.1;
+      transition: opacity 0.8s ease;
+    }
+
+    .tiny-bulb {
+      width: 8px;
+      height: 12px;
+      background: #333;
+      border-radius: 50%;
+    }
+
+    .tiny-bulb.lit {
+      background: #fff;
+      box-shadow: 0 0 15px 4px #ffd15c;
+    }
+
+    .stage-spotlight {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 240px;
+      background: linear-gradient(180deg, rgba(255, 235, 160, 0.35) 0%, transparent 90%);
+      clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .flower-grid-7 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      max-width: 440px;
+      margin-bottom: 22px;
+    }
+
+    .sacred-flower-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff6b8b, #611029);
+      border: 1px solid rgba(245, 215, 127, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .sacred-flower-btn.revealed {
+      background: radial-gradient(circle, #ffe600, #ff8c00);
+      border-color: #fff;
+      box-shadow: 0 0 25px var(--gold-primary);
+      transform: scale(1.12);
+    }
+
+    .blessing-toast-display {
+      min-height: 48px;
+      font-family: var(--font-body);
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--gold-primary);
+      text-align: center;
+      margin-bottom: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .door-portal-chamber {
+      width: 220px;
+      height: 320px;
+      perspective: 800px;
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .door-frame {
+      width: 100%;
+      height: 100%;
+      border: 6px solid var(--gold-deep);
+      border-radius: 110px 110px 0 0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 35px rgba(245, 215, 127, 0.3);
+      background: #09010e;
+    }
+
+    .door-panel {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, #3d0c24 0%, #150212 100%);
+      border: 1px solid rgba(245, 215, 127, 0.3);
+      transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transform-origin: left center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .door-panel.left {
+      left: 0;
+      transform-origin: left;
+    }
+
+    .door-panel.right {
+      right: 0;
+      transform-origin: right;
+    }
+
+    .door-portal-chamber.open .door-panel.left {
+      transform: rotateY(-105deg);
+    }
+
+    .door-portal-chamber.open .door-panel.right {
+      transform: rotateY(105deg);
+    }
+
+    .portal-inner-light {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, #ffffff 0%, #ffdf88 40%, #ff5277 80%);
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .door-portal-chamber.open .portal-inner-light {
+      opacity: 1;
+    }
+
+    .portrait-halo-wrapper {
+      position: relative;
+      width: 230px;
+      height: 230px;
+      margin-bottom: 24px;
+    }
+
+    .portrait-halo-ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 2px dashed var(--gold-primary);
+      animation: rotateHalo 25s linear infinite;
+    }
+
+    .portrait-halo-ring-outer {
+      position: absolute;
+      inset: -26px;
+      border-radius: 50%;
+      border: 1px solid rgba(245, 215, 127, 0.3);
+      animation: rotateHaloReverse 35s linear infinite;
+    }
+
+    @keyframes rotateHalo { 100% { transform: rotate(360deg); } }
+    @keyframes rotateHaloReverse { 100% { transform: rotate(-360deg); } }
+
+    .portrait-image-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid var(--gold-primary);
+      overflow: hidden;
+      box-shadow: 0 0 50px rgba(245, 215, 127, 0.5), inset 0 0 20px rgba(0,0,0,0.5);
+      background: radial-gradient(circle, #2a0833, #05010a);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-image-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .portrait-image-circle:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Elegant fallback if image is loading */
+    .portrait-monogram-fallback {
+      position: absolute;
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+      text-shadow: 0 0 25px var(--gold-glow);
+    }
+
+    #constellation-board {
+      width: 320px;
+      height: 320px;
+      position: relative;
+      border: 1px solid rgba(245, 215, 127, 0.2);
+      border-radius: 16px;
+      background: rgba(8, 6, 16, 0.6);
+      backdrop-filter: blur(8px);
+      margin-bottom: 22px;
+    }
+
+    .constellation-star {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 10px #ffeb99;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      z-index: 5;
+    }
+
+    .constellation-star.active {
+      background: var(--gold-primary);
+      box-shadow: 0 0 20px 4px #ffd000;
+      transform: translate(-50%, -50%) scale(1.35);
+    }
+
+    .wish-cards-container {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      max-width: 90vw;
+      padding: 20px 10px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+
+    .wish-cards-container::-webkit-scrollbar { display: none; }
+
+    .flip-card-3d {
+      flex: 0 0 200px;
+      height: 270px;
+      perspective: 1000px;
+      cursor: pointer;
+      scroll-snap-align: center;
+    }
+
+    .flip-card-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .flip-card-3d.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid rgba(245, 215, 127, 0.3);
+      backdrop-filter: blur(12px);
+    }
+
+    .card-front {
+      background: linear-gradient(145deg, rgba(35, 15, 45, 0.8), rgba(15, 5, 20, 0.9));
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .card-back {
+      background: linear-gradient(145deg, rgba(55, 25, 35, 0.95), rgba(25, 8, 18, 0.95));
+      transform: rotateY(180deg);
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 25px rgba(245, 215, 127, 0.3);
+    }
+
+    .envelope-3d-stage {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      perspective: 900px;
+      margin-bottom: 25px;
+    }
+
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      background: var(--paper-cream);
+      border-radius: 8px;
+      border: 2px solid var(--gold-deep);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wax-seal {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #9c1224, #540610);
+      border: 2px solid #e28743;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffd700;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .wax-seal:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ff2a40;
+    }
+
+    .unfolded-paper-modal {
+      position: fixed;
+      inset: 20px;
+      max-width: 520px;
+      max-height: 82vh;
+      margin: auto;
+      background: var(--paper-cream);
+      color: #291b10;
+      border-radius: 12px;
+      border: 3px double var(--gold-deep);
+      box-shadow: 0 20px 70px rgba(0,0,0,0.95);
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(40px) scale(0.9);
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .unfolded-paper-modal.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .letter-parchment-text {
+      font-family: var(--font-body);
+      font-size: 1.25rem;
+      line-height: 1.75;
+      text-align: left;
+      white-space: pre-line;
+      margin-bottom: 24px;
+    }
+
+    .letter-signature {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      color: #7d441e;
+      text-align: right;
+    }
+
+    .wish-moon-interactive {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f7dfa5 60%, #bca167 100%);
+      box-shadow: 0 0 50px rgba(245, 215, 127, 0.5);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+      transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.6s ease;
+    }
+
+    .wish-moon-interactive:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 80px rgba(245, 215, 127, 0.85);
+    }
+
+    .library-bookshelf {
+      display: flex;
+      gap: 14px;
+      max-width: 95vw;
+      overflow-x: auto;
+      padding: 20px 10px;
+      scrollbar-width: none;
+    }
+
+    .library-bookshelf::-webkit-scrollbar { display: none; }
+
+    .magic-book-spine {
+      flex: 0 0 65px;
+      height: 220px;
+      background: linear-gradient(90deg, #1b0c09, #5c2415 60%, #290d06);
+      border-left: 3px solid var(--gold-deep);
+      border-radius: 6px 10px 10px 6px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-primary);
+      padding: 10px 0;
+    }
+
+    .magic-book-spine:hover {
+      transform: translateY(-16px);
+      box-shadow: 0 15px 35px rgba(245, 215, 127, 0.4);
+    }
+
+    .glass-capsule {
+      position: relative;
+      width: 140px;
+      height: 240px;
+      border: 3px solid rgba(245, 215, 127, 0.6);
+      border-radius: 70px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 100%);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(100, 200, 255, 0.2), inset 0 0 20px rgba(255,255,255,0.25);
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .capsule-core-glow {
+      width: 40px;
+      height: 40px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 35px 12px #ffc107;
+      animation: capsuleFloat 2.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes capsuleFloat {
+      0% { transform: translateY(-20px) scale(0.9); }
+      100% { transform: translateY(20px) scale(1.1); }
+    }
+
+    .cake-pedestal {
+      position: relative;
+      width: 200px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 25px;
+    }
+
+    .cake-tier-base {
+      width: 190px;
+      height: 60px;
+      background: linear-gradient(180deg, #fcead6, #dfb892);
+      border-radius: 12px 12px 6px 6px;
+      border: 2px solid var(--gold-deep);
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .cake-tier-top {
+      width: 130px;
+      height: 50px;
+      background: linear-gradient(180deg, #fff3e6, #ebd0b5);
+      border-radius: 10px 10px 4px 4px;
+      border: 2px solid var(--gold-deep);
+      position: relative;
+    }
+
+    .candles-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: -4px;
+      z-index: 5;
+    }
+
+    .single-candle {
+      width: 8px;
+      height: 32px;
+      background: repeating-linear-gradient(45deg, #fff, #fff 4px, #e91e63 4px, #e91e63 8px);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .candle-flame {
+      position: absolute;
+      top: -16px;
+      left: -1px;
+      width: 10px;
+      height: 16px;
+      background: radial-gradient(circle, #ffff99, #ff5722 80%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 15px 3px #ff9800;
+      animation: flameWiggle 0.5s infinite alternate ease-in-out;
+      transition: opacity 0.4s ease;
+    }
+
+    .candle-flame.blown {
+      opacity: 0 !important;
+    }
+
+    .luxury-gift-box {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(135deg, #85142b 0%, #3d0510 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.8), 0 0 30px rgba(255, 60, 90, 0.3);
+      cursor: pointer;
+      margin-bottom: 28px;
+      transition: transform 0.5s ease;
+    }
+
+    .luxury-gift-box:hover {
+      transform: scale(1.05) translateY(-5px);
+    }
+
+    .gift-ribbon-v {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 100%;
+      background: linear-gradient(90deg, #f5d77f, #c9933e);
+    }
+
+    .gift-ribbon-h {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 24px;
+      background: linear-gradient(180deg, #f5d77f, #c9933e);
+    }
+
+    .grand-finale-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6.5vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #fae19c 50%, #c9933e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(245, 215, 127, 0.7));
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .grand-finale-date {
+      font-family: var(--font-ui);
+      font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+      letter-spacing: 0.38em;
+      color: var(--gold-primary);
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 400;
+    }
+
+    /* Mobile Adaptations */
+    @media (max-width: 600px) {
+      .cinematic-title { font-size: 1.5rem; letter-spacing: 0.12em; }
+      .cinematic-sub { font-size: 1.15rem; line-height: 1.5; padding: 0 10px; }
+      .gate-arch-container { width: 270px; height: 320px; }
+      .portrait-halo-wrapper { width: 190px; height: 190px; }
+      #constellation-board { width: 280px; height: 280px; }
+      .unfolded-paper-modal { padding: 20px; inset: 15px; }
+      .letter-parchment-text { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background visual layers -->
+  <canvas id="universe-canvas"></canvas>
+  <canvas id="fireworks-canvas"></canvas>
+  <div class="ambient-lens-flare"></div>
+
+  <header class="hud-controls">
+    <button class="hud-btn" id="audio-toggle-btn" aria-label="Toggle Atmosphere Sound" title="Sound">♪</button>
+  </header>
+
+  <div class="scene-progress-container">
+    <div class="scene-counter" id="hud-scene-counter">Scene 01 / 20</div>
+    <div class="progress-track">
+      <div class="progress-bar" id="hud-progress-bar"></div>
+    </div>
+  </div>
+
+  <main id="experience-viewport">
+
+    <!-- SCENE 00: CINEMATIC MOVIE INTRO -->
+    <section class="scene-frame active" id="scene-0">
+      <div class="intro-star-particle"></div>
+      <h1 class="cinematic-title fade-sequence-line" id="intro-line-1">Tonight…</h1>
+      <p class="cinematic-sub fade-sequence-line" id="intro-line-2">Something beautiful is waiting.</p>
+      <p class="cinematic-sub fade-sequence-line" id="intro-line-3" style="font-size:1.1rem; color:var(--gold-primary);">Follow the lights.</p>
+      <button class="glow-btn" id="btn-start-journey" style="margin-top:20px;">BEGIN THE JOURNEY ✨</button>
+    </section>
+
+    <!-- SCENE 01: NIGHT SKY -->
+    <section class="scene-frame" id="scene-1">
+      <div class="moon-sphere">
+        <span class="moon-inner-date">06 OCT</span>
+      </div>
+      <h2 class="cinematic-title">06 OCTOBER</h2>
+      <p class="cinematic-sub">A day worth celebrating under an infinite sky.</p>
+      <button class="glow-btn" onclick="worldController.goToScene(2)">CONTINUE DESCENT ↓</button>
+    </section>
+
+    <!-- SCENE 02: THE DISTANT GLOW -->
+    <section class="scene-frame" id="scene-2">
+      <div class="horizon-pandal-wrapper">
+        <div class="horizon-lantern-row">
+          <div class="distant-lantern-dot"></div>
+          <div class="distant-lantern-dot"></div>
+          <div class="distant-lantern-dot"></div>
+          <div class="distant-lantern-dot"></div>
+          <div class="distant-lantern-dot"></div>
+        </div>
+        <div class="distant-pandal-silhouette"></div>
+      </div>
+      <h2 class="cinematic-title">The Distant Glow</h2>
+      <p class="cinematic-sub">The celebration is just ahead across the horizon…</p>
+      <button class="glow-btn" id="btn-scene-2-enter" style="display:none;" onclick="worldController.goToScene(3)">ENTER →</button>
+    </section>
+
+    <!-- SCENE 03: GRAND PANDAL GATE -->
+    <section class="scene-frame" id="scene-3">
+      <div class="gate-arch-container">
+        <div class="marigold-garland">
+          <div class="garland-flower"></div><div class="garland-flower"></div>
+          <div class="garland-flower"></div><div class="garland-flower"></div>
+          <div class="garland-flower"></div><div class="garland-flower"></div>
+          <div class="garland-flower"></div><div class="garland-flower"></div>
+        </div>
+        <div class="gate-pillar left"></div>
+        <div class="gate-pillar right"></div>
+        <div class="hanging-pandal-lamp"></div>
+        <div style="font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.3em; color:var(--gold-primary); margin-top:20px;">06 • OCTOBER</div>
+        <div style="font-family:var(--font-body); font-style:italic; font-size:1.15rem; color:#fff; margin-top:15px; text-align:center; padding:0 25px;">A Little Celebration Awaits</div>
+      </div>
+      <button class="glow-btn" onclick="worldController.goToScene(4)">ENTER THE PANDAL ✨</button>
+    </section>
+
+    <!-- SCENE 04: LIGHT WALK -->
+    <section class="scene-frame" id="scene-4">
+      <div class="walkway-perspective">
+        <div class="walkway-floor">
+          <div class="diya-node" style="top:25px; left:15px;"></div>
+          <div class="diya-node" style="top:25px; right:15px;"></div>
+          <div class="diya-node" style="top:95px; left:30px;"></div>
+          <div class="diya-node" style="top:95px; right:30px;"></div>
+          <div class="diya-node" style="top:165px; left:45px;"></div>
+          <div class="diya-node" style="top:165px; right:45px;"></div>
+        </div>
+      </div>
+      <p class="cinematic-sub">“Every beautiful celebration begins with a little light.”</p>
+      <button class="glow-btn" onclick="worldController.goToScene(5)">STEP FORWARD →</button>
+    </section>
+
+    <!-- SCENE 05: LIGHT THE WORLD -->
+    <section class="scene-frame" id="scene-5">
+      <div class="pandal-stage-mock" id="pandal-illumination-stage">
+        <div class="bulb-string" id="stage-bulb-row">
+          <div class="tiny-bulb"></div><div class="tiny-bulb"></div>
+          <div class="tiny-bulb"></div><div class="tiny-bulb"></div>
+          <div class="tiny-bulb"></div><div class="tiny-bulb"></div>
+          <div class="tiny-bulb"></div>
+        </div>
+        <div class="stage-spotlight" id="stage-central-spot"></div>
+        <div style="position:absolute; bottom:15px; width:100%; text-align:center; font-family:var(--font-display); font-size:0.8rem; letter-spacing:0.2em; color:var(--gold-primary);">PANDAL SANCTUARY</div>
+      </div>
+      <h2 class="cinematic-title" id="light-scene-title">Light The World</h2>
+      <p class="cinematic-sub" id="light-scene-sub">Awaken the golden lights throughout the sanctuary.</p>
+      <button class="glow-btn" id="btn-trigger-lighting" onclick="worldController.sequencePandalLights()">LIGHT THE PANDAL ✨</button>
+    </section>
+
+    <!-- SCENE 06: FLOWER COURTYARD -->
+    <section class="scene-frame" id="scene-6">
+      <h2 class="cinematic-title">Flower Courtyard</h2>
+      <div class="blessing-toast-display" id="flower-blessing-text">Uncover the 7 sacred floral blessings...</div>
+      <div class="flower-grid-7" id="flower-grid">
+        <button class="sacred-flower-btn" data-wish="More happiness.">🌸</button>
+        <button class="sacred-flower-btn" data-wish="More peace.">🌺</button>
+        <button class="sacred-flower-btn" data-wish="More laughter.">🌼</button>
+        <button class="sacred-flower-btn" data-wish="More success.">🌹</button>
+        <button class="sacred-flower-btn" data-wish="More beautiful days.">🌷</button>
+        <button class="sacred-flower-btn" data-wish="More wonderful surprises.">💐</button>
+        <button class="sacred-flower-btn" data-wish="More reasons to smile.">🪷</button>
+      </div>
+      <button class="glow-btn" id="btn-flowers-done" style="display:none;" onclick="worldController.goToScene(7)">PROCEED TO THE PORTAL →</button>
+    </section>
+
+    <!-- SCENE 07: THE MAGIC DOOR -->
+    <section class="scene-frame" id="scene-7">
+      <div class="door-portal-chamber" id="magic-door-portal">
+        <div class="door-frame">
+          <div class="door-panel left"></div>
+          <div class="door-panel right"></div>
+          <div class="portal-inner-light">
+            <span style="font-family:var(--font-display); font-size:1.5rem; color:#6b1236;">✦</span>
+          </div>
+        </div>
+      </div>
+      <h2 class="cinematic-title">There is more…</h2>
+      <p class="cinematic-sub">Beyond every threshold lies a new beginning.</p>
+      <button class="glow-btn" id="btn-open-magic-door" onclick="worldController.openMagicDoorSequence()">OPEN THE NEXT CHAPTER</button>
+    </section>
+
+    <!-- SCENE 08: PORTRAIT HALL -->
+    <section class="scene-frame" id="scene-8">
+      <div class="portrait-halo-wrapper">
+        <div class="portrait-halo-ring"></div>
+        <div class="portrait-halo-ring-outer"></div>
+        <div class="portrait-image-circle">
+          <span class="portrait-monogram-fallback">KM</span>
+          <img src="6.png" alt="Kanchan Mahtha" onerror="this.style.opacity='0';">
+        </div>
+      </div>
+      <p class="cinematic-sub" style="margin-bottom:4px; font-size:1.15rem; color:var(--gold-primary);">Today is yours.</p>
+      <h2 class="cinematic-title" style="font-size: clamp(1.8rem, 4vw, 2.8rem);">HAPPY BIRTHDAY, KANCHAN ✨</h2>
+      <p class="cinematic-sub" style="font-family:var(--font-ui); font-size:0.85rem; letter-spacing:0.3em; margin-bottom:20px;">06 • OCTOBER</p>
+      <button class="glow-btn" onclick="worldController.goToScene(9)">GAZE AT THE STARS →</button>
+    </section>
+
+    <!-- SCENE 09: CONSTELLATION -->
+    <section class="scene-frame" id="scene-9">
+      <h2 class="cinematic-title">Starlit Destiny</h2>
+      <p class="cinematic-sub" style="margin-bottom:12px;">Connect the bright stars in the night canopy.</p>
+      <div id="constellation-board">
+        <canvas id="constellation-canvas" style="position:absolute; inset:0; width:100%; height:100%;"></canvas>
+      </div>
+      <div id="constellation-status" style="font-family:var(--font-ui); font-size:0.78rem; letter-spacing:0.2em; color:var(--gold-primary); margin-bottom:15px;">STARS ALIGNED: 0 / 6</div>
+      <button class="glow-btn" id="btn-constellation-next" style="display:none;" onclick="worldController.goToScene(10)">ENTER WISH GALLERY →</button>
+    </section>
+
+    <!-- SCENE 10: WISH GALLERY -->
+    <section class="scene-frame" id="scene-10">
+      <h2 class="cinematic-title">Wish Gallery</h2>
+      <p class="cinematic-sub">Touch a card to flip and reveal its essence.</p>
+      <div class="wish-cards-container">
+        <div class="flip-card-3d" onclick="this.classList.toggle('flipped'); soundSystem.playGlassChime();">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <span style="font-size:2rem; margin-bottom:10px;">☀️️</span>
+              <h3 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.15em; color:var(--gold-primary);">HAPPINESS</h3>
+              <p style="font-size:0.8rem; color:#aaa; margin-top:8px;">(Tap to Flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <p style="font-size:1.15rem; font-style:italic;">May genuine joy find you in the quietest, most unexpected moments.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card-3d" onclick="this.classList.toggle('flipped'); soundSystem.playGlassChime();">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <span style="font-size:2rem; margin-bottom:10px;">🕊️</span>
+              <h3 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.15em; color:var(--gold-primary);">PEACE</h3>
+              <p style="font-size:0.8rem; color:#aaa; margin-top:8px;">(Tap to Flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <p style="font-size:1.15rem; font-style:italic;">May you always have quiet mornings and gentle nights filled with tranquility.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card-3d" onclick="this.classList.toggle('flipped'); soundSystem.playGlassChime();">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <span style="font-size:2rem; margin-bottom:10px;">⭐</span>
+              <h3 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.15em; color:var(--gold-primary);">SUCCESS</h3>
+              <p style="font-size:0.8rem; color:#aaa; margin-top:8px;">(Tap to Flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <p style="font-size:1.15rem; font-style:italic;">May your efforts blossom gracefully and bring you quiet pride.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card-3d" onclick="this.classList.toggle('flipped'); soundSystem.playGlassChime();">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <span style="font-size:2rem; margin-bottom:10px;">🧭</span>
+              <h3 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.15em; color:var(--gold-primary);">ADVENTURE</h3>
+              <p style="font-size:0.8rem; color:#aaa; margin-top:8px;">(Tap to Flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <p style="font-size:1.15rem; font-style:italic;">May the coming year bring you to breathtaking vistas and novel wonders.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card-3d" onclick="this.classList.toggle('flipped'); soundSystem.playGlassChime();">
+          <div class="flip-card-inner">
+            <div class="card-face card-front">
+              <span style="font-size:2rem; margin-bottom:10px;">🌿</span>
+              <h3 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.15em; color:var(--gold-primary);">MOMENTS</h3>
+              <p style="font-size:0.8rem; color:#aaa; margin-top:8px;">(Tap to Flip)</p>
+            </div>
+            <div class="card-face card-back">
+              <p style="font-size:1.15rem; font-style:italic;">May every ordinary chapter unfold with extraordinary grace.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="glow-btn" style="margin-top:15px;" onclick="worldController.goToScene(11)">TO THE LETTER PALACE →</button>
+    </section>
+
+    <!-- SCENE 11: LETTER PALACE -->
+    <section class="scene-frame" id="scene-11">
+      <div class="envelope-3d-stage">
+        <div class="envelope-body">
+          <div style="font-family:var(--font-display); letter-spacing:0.25em; color:#4a2c17; font-size:0.9rem; margin-bottom:18px;">FOR KANCHAN</div>
+          <div class="wax-seal" onclick="worldController.openLetterModal()">KM</div>
+        </div>
+      </div>
+      <h2 class="cinematic-title">A Parchment of Warmth</h2>
+      <p class="cinematic-sub">A simple sealed note awaits upon the velvet desk.</p>
+      <button class="glow-btn" onclick="worldController.openLetterModal()">OPEN THE LETTER 💌</button>
+    </section>
+
+    <!-- UNROLLED LETTER MODAL DIALOGUE -->
+    <div class="unfolded-paper-modal" id="letter-modal-dialog">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.25em; color:#8c5324;">A BIRTHDAY WISH</span>
+        <button style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:#8c5324;" onclick="worldController.closeLetterAndTransform()">✕</button>
+      </div>
+      <div class="letter-parchment-text">Dear Kanchan,
+
+Today is your day.
+
+So here is a simple little wish for you.
+
+May the year ahead bring you peaceful mornings, genuine happiness, beautiful surprises, and many reasons to smile.
+
+May your dreams slowly move closer to reality.
+
+May difficult days become lighter, good days become memorable, and ordinary days become beautiful.
+
+No complicated words.
+No expectations.
+
+Just a birthday wish.
+
+Happy Birthday, Kanchan. ✨
+May your year ahead be wonderful.</div>
+      <div class="letter-signature">— An anonymous birthday wish</div>
+      <button class="glow-btn" style="margin-top:20px; align-self:center;" onclick="worldController.closeLetterAndTransform()">CLOSE & RELEASE INTO LIGHT ✨</button>
+    </div>
+
+    <!-- SCENE 12: LETTER GARDEN -->
+    <section class="scene-frame" id="scene-12">
+      <h2 class="cinematic-title">Words Become Stardust</h2>
+      <p class="cinematic-sub">The letter dissolves into shimmering fireflies, escorting you onward into the moon garden…</p>
+      <button class="glow-btn" onclick="worldController.goToScene(13)">ENTER WISH GARDEN →</button>
+    </section>
+
+    <!-- SCENE 13: WISH GARDEN -->
+    <section class="scene-frame" id="scene-13">
+      <div class="wish-moon-interactive" id="wish-garden-moon" onclick="worldController.triggerMoonWish()">
+        <span style="font-size:2.8rem;">🌙</span>
+      </div>
+      <h2 class="cinematic-title" id="moon-wish-title">MAKE ONE LITTLE WISH 🌙</h2>
+      <p class="cinematic-sub" id="moon-wish-sub">Touch the luminous crescent and hold a quiet aspiration in your heart.</p>
+      <button class="glow-btn" id="btn-make-my-wish" onclick="worldController.triggerMoonWish()">MAKE MY WISH</button>
+    </section>
+
+    <!-- SCENE 14: DREAM LIBRARY -->
+    <section class="scene-frame" id="scene-14">
+      <h2 class="cinematic-title">Dream Library</h2>
+      <p class="cinematic-sub">Peruse the celestial tomes of tomorrow.</p>
+      <div class="library-bookshelf">
+        <div class="magic-book-spine" onclick="worldController.inspectBook('HAPPINESS', 'May laughter fill your spaces and warmth dwell in your soul.')">HAPPINESS</div>
+        <div class="magic-book-spine" onclick="worldController.inspectBook('DREAMS', 'May your quiet ambitions unfurl like wings upon the horizon.')">DREAMS</div>
+        <div class="magic-book-spine" onclick="worldController.inspectBook('ADVENTURE', 'May uncharted paths greet your footsteps with wonder.')">ADVENTURE</div>
+        <div class="magic-book-spine" onclick="worldController.inspectBook('PEACE', 'May serenity calm every restless tide in your journey.')">PEACE</div>
+        <div class="magic-book-spine" onclick="worldController.inspectBook('COURAGE', 'May your strength rise softly and effortlessly whenever summoned.')">COURAGE</div>
+        <div class="magic-book-spine" onclick="worldController.inspectBook('BEGINNINGS', 'Every sunrise holds the gift of an unwritten page.')">BEGINNINGS</div>
+      </div>
+      <div id="library-dialogue-box" style="min-height:50px; font-style:italic; font-size:1.2rem; color:var(--gold-primary); text-align:center; margin:15px 0;">Select a tome above...</div>
+      <button class="glow-btn" onclick="worldController.goToScene(15)">INSPECT THE CAPSULE →</button>
+    </section>
+
+    <!-- SCENE 15: TIME CAPSULE -->
+    <section class="scene-frame" id="scene-15">
+      <div class="glass-capsule" id="time-capsule-pod">
+        <div class="capsule-core-glow"></div>
+      </div>
+      <h2 class="cinematic-title">A Message for the Year Ahead</h2>
+      <p class="cinematic-sub" id="capsule-message-body">A sealed reflection suspended in crystal starlight.</p>
+      <button class="glow-btn" id="btn-open-capsule" onclick="worldController.openTimeCapsule()">OPEN CAPSULE ⏳</button>
+    </section>
+
+    <!-- SCENE 16: CAKE ROOM -->
+    <section class="scene-frame" id="scene-16">
+      <div class="cake-pedestal">
+        <div class="candles-row">
+          <div class="single-candle"><div class="candle-flame"></div></div>
+          <div class="single-candle"><div class="candle-flame"></div></div>
+          <div class="single-candle"><div class="candle-flame"></div></div>
+        </div>
+        <div class="cake-tier-top"></div>
+        <div class="cake-tier-base"></div>
+      </div>
+      <h2 class="cinematic-title">MAKE A WISH 🎂</h2>
+      <p class="cinematic-sub">One timeless classic birthday moment…</p>
+      <button class="glow-btn" id="btn-blow-candles" onclick="worldController.blowCandlesSequence()">BLOW THE CANDLES</button>
+    </section>
+
+    <!-- SCENE 17: GIFT ROOM -->
+    <section class="scene-frame" id="scene-17">
+      <div class="luxury-gift-box" id="mystery-gift-box" onclick="worldController.openGiftSequence()">
+        <div class="gift-ribbon-v"></div>
+        <div class="gift-ribbon-h"></div>
+      </div>
+      <h2 class="cinematic-title">One Last Surprise</h2>
+      <p class="cinematic-sub" id="gift-reveal-text">A solitary parcel resting in quiet anticipation.</p>
+      <button class="glow-btn" id="btn-open-gift" onclick="worldController.openGiftSequence()">OPEN THE GIFT 🎁</button>
+    </section>
+
+    <!-- SCENE 18: GRAND FINALE -->
+    <section class="scene-frame" id="scene-18">
+      <div style="font-family:var(--font-ui); font-size:0.85rem; letter-spacing:0.4em; color:var(--gold-primary); margin-bottom:8px;">IN GLORIOUS CELEBRATION</div>
+      <h1 class="grand-finale-title">HAPPY BIRTHDAY<br>KANCHAN MAHTHA ✨</h1>
+      <div class="grand-finale-date">06 • OCTOBER</div>
+      <p class="cinematic-sub" style="max-width:620px;">May the warmth of thousands of lights guide your path today and forever.</p>
+      <button class="glow-btn" onclick="worldController.goToScene(19)">LOOK TO THE CELESTIAL SKY ↑</button>
+    </section>
+
+    <!-- SCENE 19: SKY ASCENSION -->
+    <section class="scene-frame" id="scene-19">
+      <h2 class="cinematic-title" style="font-size:2.2rem;">Celestial Horizon</h2>
+      <div style="margin:20px 0; text-align:center;">
+        <p class="cinematic-sub" style="margin-bottom:12px;">“May this year be beautiful.”</p>
+        <p class="cinematic-sub" style="margin-bottom:12px;">“May life surprise you kindly.”</p>
+        <p class="cinematic-sub">“May there always be something worth smiling about.”</p>
+      </div>
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; letter-spacing:0.2em; color:var(--gold-primary); margin-bottom:25px;">HAPPY BIRTHDAY, KANCHAN ✨</h3>
+      <button class="glow-btn" onclick="worldController.goToScene(20)">CONCLUDING NOTE →</button>
+    </section>
+
+    <!-- SCENE 20: THE END -->
+    <section class="scene-frame" id="scene-20">
+      <div class="intro-star-particle" style="margin-bottom:20px;"></div>
+      <h2 class="cinematic-title" style="letter-spacing:0.25em;">That's all.</h2>
+      <p class="cinematic-sub">Just a little birthday wish.<br>Have a beautiful day.</p>
+      <div style="font-family:var(--font-ui); font-size:0.9rem; letter-spacing:0.35em; color:var(--gold-primary); margin-bottom:20px;">06 OCTOBER ✨</div>
+      <p class="cinematic-sub" style="font-size:1.1rem; color:#bbb;">Have a wonderful year ahead.</p>
+      <button class="glow-btn" onclick="worldController.restartExperience()">EXPERIENCE IT AGAIN ↻</button>
+    </section>
+
+  </main>
+
+  <script>
+    class ProceduralSoundSystem {
+      constructor() {
+        this.ctx = null;
+        this.isMuted = false;
+        this.ambientGain = null;
+        this.initialized = false;
+      }
+
+      init() {
+        if (this.initialized) return;
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+          this.ambientGain = this.ctx.createGain();
+          this.ambientGain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+          this.ambientGain.connect(this.ctx.destination);
+          this.startAmbientDrones();
+          this.initialized = true;
+        } catch (e) {
+          console.warn("Audio unavailable; proceeding gracefully.");
+        }
+      }
+
+      startAmbientDrones() {
+        if (!this.ctx) return;
+        const freqs = [108, 162, 216, 324];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          // Gentle LFO modulation
+          const lfo = this.ctx.createOscillator();
+          const lfoGain = this.ctx.createGain();
+          lfo.frequency.setValueAtTime(0.1 + idx * 0.05, this.ctx.currentTime);
+          lfoGain.gain.setValueAtTime(4, this.ctx.currentTime);
+          lfo.connect(osc.frequency);
+          lfo.start();
+
+          gain.gain.setValueAtTime(0.015 / (idx + 1), this.ctx.currentTime);
+          osc.connect(gain);
+          gain.connect(this.ambientGain);
+          osc.start();
+        });
+      }
+
+      playTone(freq, type = 'sine', duration = 1.2, maxGain = 0.15) {
+        if (!this.ctx || this.isMuted) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(maxGain, now + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(now);
+          osc.stop(now + duration + 0.1);
+        } catch (e) {}
+      }
+
+      playChimeChord() {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major arpeggio
+        notes.forEach((freq, i) => {
+          setTimeout(() => this.playTone(freq, 'triangle', 2.0, 0.1), i * 140);
+        });
+      }
+
+      playGlassChime() {
+        this.playTone(880 + Math.random() * 300, 'sine', 1.5, 0.08);
+      }
+
+      playBoom() {
+        if (!this.ctx || this.isMuted) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(30, now + 0.8);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.8);
+        } catch (e) {}
+      }
+
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        if (this.ambientGain) {
+          this.ambientGain.gain.setValueAtTime(this.isMuted ? 0 : 0.04, this.ctx.currentTime);
+        }
+        return this.isMuted;
+      }
+    }
+
+    const soundSystem = new ProceduralSoundSystem();
+
+    const universeCanvas = document.getElementById('universe-canvas');
+    const universeCtx = universeCanvas.getContext('2d');
+    const fireworksCanvas = document.getElementById('fireworks-canvas');
+    const fireworksCtx = fireworksCanvas.getContext('2d');
+
+    let screenWidth = universeCanvas.width = fireworksCanvas.width = window.innerWidth;
+    let screenHeight = universeCanvas.height = fireworksCanvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      screenWidth = universeCanvas.width = fireworksCanvas.width = window.innerWidth;
+      screenHeight = universeCanvas.height = fireworksCanvas.height = window.innerHeight;
+      initStars();
+    });
+
+    // Star & Firefly particle layers
+    let stars = [];
+    let fireflies = [];
+
+    function initStars() {
+      stars = [];
+      const count = Math.floor((screenWidth * screenHeight) / 5000);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * screenWidth,
+          y: Math.random() * screenHeight,
+          radius: Math.random() * 1.5,
+          alpha: Math.random(),
+          speed: 0.003 + Math.random() * 0.008
+        });
+      }
+
+      fireflies = [];
+      for (let i = 0; i < 28; i++) {
+        fireflies.push({
+          x: Math.random() * screenWidth,
+          y: Math.random() * screenHeight,
+          radius: 1.5 + Math.random() * 2,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: (Math.random() - 0.5) * 0.7,
+          glow: Math.random()
+        });
+      }
+    }
+
+    function renderUniverse() {
+      universeCtx.clearRect(0, 0, screenWidth, screenHeight);
+
+      // Render Twinkling Stars
+      stars.forEach(star => {
+        star.alpha += star.speed;
+        const currentAlpha = Math.abs(Math.sin(star.alpha));
+        universeCtx.fillStyle = `rgba(255, 255, 255, ${currentAlpha * 0.8})`;
+        universeCtx.beginPath();
+        universeCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        universeCtx.fill();
+      });
+
+      // Render Ambient Fireflies
+      fireflies.forEach(f => {
+        f.x += f.vx;
+        f.y += f.vy;
+        if (f.x < 0) f.x = screenWidth;
+        if (f.x > screenWidth) f.x = 0;
+        if (f.y < 0) f.y = screenHeight;
+        if (f.y > screenHeight) f.y = 0;
+
+        f.glow += 0.02;
+        const glowVal = (Math.sin(f.glow) + 1) / 2;
+
+        universeCtx.fillStyle = `rgba(255, 215, 127, ${0.4 + glowVal * 0.5})`;
+        universeCtx.shadowColor = '#f5d77f';
+        universeCtx.shadowBlur = 10;
+        universeCtx.beginPath();
+        universeCtx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+        universeCtx.fill();
+        universeCtx.shadowBlur = 0;
+      });
+
+      requestAnimationFrame(renderUniverse);
+    }
+
+    // Fireworks particle burst system
+    let fireworksBursts = [];
+
+    function triggerFirework(x, y, color = null) {
+      soundSystem.playBoom();
+      const numParticles = 45;
+      const palette = color ? [color] : ['#ff4d6d', '#ffd166', '#06d6a0', '#118ab2', '#f5d77f'];
+      const chosenColor = palette[Math.floor(Math.random() * palette.length)];
+
+      for (let i = 0; i < numParticles; i++) {
+        const angle = (Math.PI * 2 / numParticles) * i;
+        const velocity = 2 + Math.random() * 5;
+        fireworksBursts.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity,
+          alpha: 1,
+          color: chosenColor,
+          decay: 0.015 + Math.random() * 0.015,
+          gravity: 0.06
+        });
+      }
+    }
+
+    function renderFireworks() {
+      fireworksCtx.clearRect(0, 0, screenWidth, screenHeight);
+      for (let i = fireworksBursts.length - 1; i >= 0; i--) {
+        const p = fireworksBursts[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += p.gravity;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          fireworksBursts.splice(i, 1);
+          continue;
+        }
+
+        fireworksCtx.save();
+        fireworksCtx.globalAlpha = p.alpha;
+        fireworksCtx.fillStyle = p.color;
+        fireworksCtx.shadowColor = p.color;
+        fireworksCtx.shadowBlur = 8;
+        fireworksCtx.beginPath();
+        fireworksCtx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
+        fireworksCtx.fill();
+        fireworksCtx.restore();
+      }
+      requestAnimationFrame(renderFireworks);
+    }
+
+    initStars();
+    renderUniverse();
+    renderFireworks();
+
+    class ConstellationGame {
+      constructor() {
+        this.board = document.getElementById('constellation-board');
+        this.canvas = document.getElementById('constellation-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.starsData = [
+          { x: 70, y: 60, id: 0 },
+          { x: 70, y: 160, id: 1 },
+          { x: 70, y: 260, id: 2 },
+          { x: 190, y: 80, id: 3 },
+          { x: 120, y: 160, id: 4 },
+          { x: 190, y: 240, id: 5 } // Forms a stylized 'K' constellation
+        ];
+        this.activatedIndices = new Set();
+        this.setupBoard();
+      }
+
+      setupBoard() {
+        this.canvas.width = 320;
+        this.canvas.height = 320;
+        this.starsData.forEach((sd) => {
+          const starElem = document.createElement('div');
+          starElem.className = 'constellation-star';
+          starElem.style.left = `${sd.x}px`;
+          starElem.style.top = `${sd.y}px`;
+          starElem.addEventListener('click', () => this.activateStar(sd.id, starElem));
+          this.board.appendChild(starElem);
+        });
+      }
+
+      activateStar(id, elem) {
+        if (this.activatedIndices.has(id)) return;
+        this.activatedIndices.add(id);
+        elem.classList.add('active');
+        soundSystem.playGlassChime();
+        this.drawLines();
+
+        document.getElementById('constellation-status').innerText = `STARS ALIGNED: ${this.activatedIndices.size} / ${this.starsData.length}`;
+
+        if (this.activatedIndices.size === this.starsData.length) {
+          soundSystem.playChimeChord();
+          document.getElementById('constellation-status').innerText = "CONSTELLATION COMPLETE: 'K • 06'";
+          document.getElementById('btn-constellation-next').style.display = 'inline-block';
+        }
+      }
+
+      drawLines() {
+        this.ctx.clearRect(0, 0, 320, 320);
+        this.ctx.strokeStyle = 'rgba(245, 215, 127, 0.7)';
+        this.ctx.lineWidth = 2;
+        this.ctx.shadowColor = '#ffd000';
+        this.ctx.shadowBlur = 8;
+
+        const connections = [
+          [0, 1], [1, 2], [1, 4], [4, 3], [4, 5]
+        ];
+
+        connections.forEach(([from, to]) => {
+          if (this.activatedIndices.has(from) && this.activatedIndices.has(to)) {
+            const p1 = this.starsData[from];
+            const p2 = this.starsData[to];
+            this.ctx.beginPath();
+            this.ctx.moveTo(p1.x, p1.y);
+            this.ctx.lineTo(p2.x, p2.y);
+            this.ctx.stroke();
+          }
+        });
+      }
+
+      reset() {
+        this.activatedIndices.clear();
+        this.ctx.clearRect(0, 0, 320, 320);
+        this.board.querySelectorAll('.constellation-star').forEach(s => s.classList.remove('active'));
+        document.getElementById('constellation-status').innerText = `STARS ALIGNED: 0 / ${this.starsData.length}`;
+        document.getElementById('btn-constellation-next').style.display = 'none';
+      }
+    }
+
+    let constellationInstance = null;
+
+    class WorldDirector {
+      constructor() {
+        this.totalScenes = 20;
+        this.currentScene = 0;
+        this.scenes = [];
+        for (let i = 0; i <= this.totalScenes; i++) {
+          this.scenes.push(document.getElementById(`scene-${i}`));
+        }
+        this.initEventListeners();
+      }
+
+      initEventListeners() {
+        // Scene 0 Intro Animation Trigger
+        document.getElementById('btn-start-journey').addEventListener('click', () => {
+          soundSystem.init();
+          soundSystem.playChimeChord();
+          this.goToScene(1);
+        });
+
+        // Audio HUD button
+        document.getElementById('audio-toggle-btn').addEventListener('click', (e) => {
+          soundSystem.init();
+          const muted = soundSystem.toggleMute();
+          e.target.innerText = muted ? '🔇' : '♪';
+        });
+
+        // Scene 06 Blessings Flowers
+        const flowerBtns = document.querySelectorAll('.sacred-flower-btn');
+        let flowersRevealedCount = 0;
+        flowerBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            if (!btn.classList.contains('revealed')) {
+              btn.classList.add('revealed');
+              soundSystem.playGlassChime();
+              flowersRevealedCount++;
+              document.getElementById('flower-blessing-text').innerText = btn.getAttribute('data-wish');
+              if (flowersRevealedCount >= 7) {
+                soundSystem.playChimeChord();
+                document.getElementById('btn-flowers-done').style.display = 'inline-block';
+              }
+            }
+          });
+        });
+      }
+
+      updateHUD() {
+        const sceneNum = String(this.currentScene + 1).padStart(2, '0');
+        document.getElementById('hud-scene-counter').innerText = `Scene ${sceneNum} / 20`;
+        const percentage = Math.max(5, (this.currentScene / this.totalScenes) * 100);
+        document.getElementById('hud-progress-bar').style.width = `${percentage}%`;
+      }
+
+      goToScene(index) {
+        if (index < 0 || index > this.totalScenes) return;
+
+        // Exit active scene
+        const prev = this.scenes[this.currentScene];
+        if (prev) {
+          prev.classList.remove('active');
+          prev.classList.add('exit');
+          setTimeout(() => prev.classList.remove('exit'), 1200);
+        }
+
+        this.currentScene = index;
+        const next = this.scenes[this.currentScene];
+        if (next) {
+          next.classList.add('active');
+        }
+
+        this.updateHUD();
+        this.onSceneEnter(index);
+      }
+
+      onSceneEnter(index) {
+        switch(index) {
+          case 2:
+            setTimeout(() => {
+              const btn = document.getElementById('btn-scene-2-enter');
+              if (btn) btn.style.display = 'inline-block';
+            }, 2000);
+            break;
+
+          case 9:
+            if (!constellationInstance) {
+              constellationInstance = new ConstellationGame();
+            } else {
+              constellationInstance.reset();
+            }
+            break;
+
+          case 18: // Grand finale firework spectacular
+            this.launchFinaleShow();
+            break;
+        }
+      }
+
+      sequencePandalLights() {
+        soundSystem.playTone(440, 'triangle', 2.0);
+        const stage = document.getElementById('pandal-illumination-stage');
+        const bulbs = document.querySelectorAll('.tiny-bulb');
+        const spotlight = document.getElementById('stage-central-spot');
+        const title = document.getElementById('light-scene-title');
+        const sub = document.getElementById('light-scene-sub');
+        const btn = document.getElementById('btn-trigger-lighting');
+
+        btn.style.display = 'none';
+
+        bulbs.forEach((bulb, i) => {
+          setTimeout(() => {
+            bulb.classList.add('lit');
+            soundSystem.playGlassChime();
+          }, i * 350);
+        });
+
+        setTimeout(() => {
+          spotlight.style.opacity = '1';
+          stage.classList.add('fully-lit');
+          title.innerText = "NOW THE CELEBRATION BEGINS ✨";
+          sub.innerText = "The pandal awakens in brilliant luminescence.";
+          soundSystem.playChimeChord();
+
+          // Brief confetti firework
+          triggerFirework(screenWidth / 2, screenHeight / 2, '#f5d77f');
+
+          setTimeout(() => this.goToScene(6), 2400);
+        }, bulbs.length * 350 + 400);
+      }
+
+      openMagicDoorSequence() {
+        const portal = document.getElementById('magic-door-portal');
+        portal.classList.add('open');
+        soundSystem.playChimeChord();
+        setTimeout(() => {
+          this.goToScene(8);
+        }, 1600);
+      }
+
+      openLetterModal() {
+        soundSystem.playTone(587.33, 'sine', 1.5);
+        document.getElementById('letter-modal-dialog').classList.add('open');
+      }
+
+      closeLetterAndTransform() {
+        document.getElementById('letter-modal-dialog').classList.remove('open');
+        soundSystem.playChimeChord();
+        // Burst particles in center
+        for(let i=0; i<3; i++) {
+          setTimeout(() => triggerFirework(screenWidth/2, screenHeight/2, '#ffd700'), i*200);
+        }
+        setTimeout(() => this.goToScene(12), 600);
+      }
+
+      triggerMoonWish() {
+        const moon = document.getElementById('wish-garden-moon');
+        moon.style.transform = 'scale(1.25)';
+        soundSystem.playTone(523.25, 'sine', 3.0, 0.2);
+        document.getElementById('moon-wish-title').innerText = "A WISH ASCENDS 🌙";
+        document.getElementById('moon-wish-sub').innerText = "May it find its way to you gently across the stars.";
+        document.getElementById('btn-make-my-wish').style.display = 'none';
+
+        triggerFirework(screenWidth / 2, screenHeight / 3, '#fff');
+
+        setTimeout(() => this.goToScene(14), 2600);
+      }
+
+      inspectBook(title, excerpt) {
+        soundSystem.playGlassChime();
+        const display = document.getElementById('library-dialogue-box');
+        display.innerHTML = `<strong>${title}:</strong> “${excerpt}”`;
+      }
+
+      openTimeCapsule() {
+        soundSystem.playChimeChord();
+        const msg = document.getElementById('capsule-message-body');
+        msg.innerHTML = `“May you find something beautiful in places you weren’t expecting.<br><br>May the good moments stay longer, and may the difficult ones pass sooner.<br><br><strong>Your next chapter begins now. ✨</strong>”`;
+        document.getElementById('btn-open-capsule').innerText = 'PROCEED TO CAKE ROOM →';
+        document.getElementById('btn-open-capsule').onclick = () => this.goToScene(16);
+      }
+
+      blowCandlesSequence() {
+        document.querySelectorAll('.candle-flame').forEach(f => f.classList.add('blown'));
+        soundSystem.playTone(220, 'sine', 1.0, 0.05);
+
+        // Flash & Darkness
+        document.body.style.filter = 'brightness(0.2)';
+        setTimeout(() => {
+          document.body.style.filter = 'brightness(1)';
+          soundSystem.playChimeChord();
+          triggerFirework(screenWidth / 2, screenHeight / 2, '#ff3366');
+          triggerFirework(screenWidth / 2 - 80, screenHeight / 2 - 50, '#ffcc00');
+          triggerFirework(screenWidth / 2 + 80, screenHeight / 2 - 50, '#00e5ff');
+          setTimeout(() => this.goToScene(17), 2200);
+        }, 1000);
+      }
+
+      openGiftSequence() {
+        const box = document.getElementById('mystery-gift-box');
+        box.style.transform = 'scale(1.15) rotate(4deg)';
+        soundSystem.playChimeChord();
+
+        document.getElementById('gift-reveal-text').innerHTML = `<strong>A YEAR FULL OF BEAUTIFUL SURPRISES.</strong><br><br>That's the only gift worth wishing for.`;
+        document.getElementById('btn-open-gift').innerText = 'TO THE GRAND FINALE 🎆';
+        document.getElementById('btn-open-gift').onclick = () => this.goToScene(18);
+      }
+
+      launchFinaleShow() {
+        let count = 0;
+        const interval = setInterval(() => {
+          const rx = screenWidth * (0.2 + Math.random() * 0.6);
+          const ry = screenHeight * (0.15 + Math.random() * 0.4);
+          triggerFirework(rx, ry);
+          count++;
+          if (count > 9) clearInterval(interval);
+        }, 600);
+      }
+
+      restartExperience() {
+        window.scrollTo(0,0);
+        // Reset states
+        document.querySelectorAll('.candle-flame').forEach(f => f.classList.remove('blown'));
+        document.querySelectorAll('.sacred-flower-btn').forEach(f => f.classList.remove('revealed'));
+        document.getElementById('btn-flowers-done').style.display = 'none';
+        document.getElementById('flower-blessing-text').innerText = 'Uncover the 7 sacred floral blessings...';
+        document.getElementById('magic-door-portal').classList.remove('open');
+        this.goToScene(0);
+      }
+    }
+
+    // Sequence for opening intro text lines
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('intro-line-1').classList.add('show'), 600);
+      setTimeout(() => {
+        document.getElementById('intro-line-1').classList.remove('show');
+        document.getElementById('intro-line-2').classList.add('show');
+      }, 2400);
+      setTimeout(() => {
+        document.getElementById('intro-line-3').classList.add('show');
+      }, 4200);
+    });
+
+    const worldController = new WorldDirector();
+  </script>
+</body>
+</html>
