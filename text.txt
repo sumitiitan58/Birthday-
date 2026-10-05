@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Happy Birthday Kanchan Mahtha ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-midnight: #070213;
+      --bg-deep-purple: #120524;
+      --velvet-purple: #230836;
+      --velvet-shadow: #0f0217;
+      --gold-primary: #f5d061;
+      --gold-light: #fff3c4;
+      --gold-dark: #b8860b;
+      --gold-gradient: linear-gradient(135deg, #ffe082 0%, #d4af37 50%, #996515 100%);
+      --pink-glow: #ff77a9;
+      --pink-soft: #ffb7c5;
+      --lavender-glow: #b39ddb;
+      --lavender-soft: #e1bee7;
+      --text-creme: #fff9ea;
+      --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg-midnight);
+      color: var(--text-creme);
+      font-family: var(--font-sans);
+      position: fixed;
+    }
+
+    #fx-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .ambient-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(circle at 50% 30%, #26073d 0%, #110321 50%, #05010d 100%);
+      transition: background 1.8s ease;
+      overflow: hidden;
+    }
+
+    .ambient-glow-circle {
+      position: absolute;
+      width: 75vw;
+      height: 75vw;
+      max-width: 650px;
+      max-height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245, 208, 97, 0.14) 0%, rgba(225, 190, 231, 0.05) 55%, transparent 75%);
+      filter: blur(55px);
+      top: 42%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: pulseAura 8s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseAura {
+      0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.6; }
+      100% { transform: translate(-50%, -50%) scale(1.18); opacity: 0.95; }
+    }
+
+    .theatre-viewport {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .theatre-valance {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      background: linear-gradient(180deg, #180327 0%, #300a4a 65%, #210533 100%);
+      border-bottom: 3px solid var(--gold-primary);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(212, 175, 55, 0.4);
+      z-index: 55;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+    }
+
+    .valance-scallop {
+      width: 12.5%;
+      height: 22px;
+      background: #300a4a;
+      border-radius: 0 0 50% 50%;
+      border-bottom: 3px solid var(--gold-primary);
+      box-shadow: inset 0 -3px 6px rgba(0,0,0,0.5);
+    }
+
+    .curtain-panel {
+      position: absolute;
+      top: 0;
+      width: 53%;
+      height: 100%;
+      z-index: 52;
+      transition: transform 1.9s var(--transition-smooth);
+      pointer-events: auto;
+      background: repeating-linear-gradient(
+        90deg,
+        #12011c 0px,
+        #2a0740 18px,
+        #410d63 34px,
+        #2a0740 50px,
+        #100118 68px
+      );
+      box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0,0,0,0.85);
+      display: flex;
+    }
+
+    .curtain-left {
+      left: 0;
+      transform: translateX(0%);
+      border-right: 4px solid var(--gold-primary);
+    }
+
+    .curtain-right {
+      right: 0;
+      transform: translateX(0%);
+      border-left: 4px solid var(--gold-primary);
+    }
+
+    .curtains-open .curtain-left {
+      transform: translateX(-102%);
+    }
+
+    .curtains-open .curtain-right {
+      transform: translateX(102%);
+    }
+
+    .curtain-tassel {
+      position: absolute;
+      bottom: 26%;
+      width: 26px;
+      height: 95px;
+      background: var(--gold-gradient);
+      border-radius: 6px;
+      box-shadow: 0 0 15px rgba(245, 208, 97, 0.5);
+    }
+    .curtain-left .curtain-tassel { right: 12px; }
+    .curtain-right .curtain-tassel { left: 12px; }
+
+    .top-bar {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      width: 100%;
+      padding: 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 70;
+      pointer-events: auto;
+    }
+
+    .nav-btn {
+      background: rgba(30, 10, 48, 0.65);
+      border: 1px solid rgba(245, 208, 97, 0.4);
+      color: var(--gold-light);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      font-size: 1.15rem;
+      outline: none;
+    }
+
+    .nav-btn:hover {
+      background: rgba(74, 20, 110, 0.85);
+      border-color: var(--gold-primary);
+      transform: scale(1.08);
+      box-shadow: 0 0 18px rgba(245, 208, 97, 0.6);
+    }
+
+    .nav-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.8);
+    }
+
+    .bottom-hud {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 70;
+      pointer-events: auto;
+    }
+
+    .progress-dots-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      max-width: 90vw;
+      overflow-x: auto;
+      padding: 4px 10px;
+      background: rgba(18, 5, 28, 0.45);
+      border-radius: 20px;
+      border: 1px solid rgba(245, 208, 97, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .progress-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 243, 196, 0.25);
+      transition: all 0.4s ease;
+      flex-shrink: 0;
+    }
+
+    .progress-dot.active {
+      background: var(--gold-primary);
+      box-shadow: 0 0 10px var(--gold-primary);
+      transform: scale(1.35);
+    }
+
+    .progress-dot.visited {
+      background: rgba(255, 183, 197, 0.7);
+    }
+
+    .ctx-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 32px;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 50px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.35s var(--transition-smooth);
+      animation: gentleFloat 3.4s infinite ease-in-out;
+      overflow: hidden;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .ctx-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      transform: skewX(-20deg);
+      animation: lightSweep 4.5s infinite ease-in-out;
+    }
+
+    @keyframes lightSweep {
+      0%, 65% { left: -100%; }
+      100% { left: 200%; }
+    }
+
+    .ctx-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+    .ctx-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    /* Style A: Golden Capsule */
+    .btn-style-a {
+      color: #1a0528;
+      background: linear-gradient(135deg, #fff3c4 0%, #ffd700 50%, #e6a100 100%);
+      border: 1px solid #ffe57f;
+      box-shadow: 0 4px 22px rgba(255, 215, 0, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Style B: Theatre Button */
+    .btn-style-b {
+      color: var(--gold-light);
+      background: rgba(36, 9, 56, 0.85);
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7), inset 0 0 14px rgba(245, 208, 97, 0.35);
+      backdrop-filter: blur(10px);
+    }
+    .btn-style-b:hover {
+      background: rgba(58, 14, 92, 0.95);
+      box-shadow: 0 0 25px rgba(245, 208, 97, 0.6);
+    }
+
+    /* Style C: Magic Button */
+    .btn-style-c {
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(179, 157, 219, 0.9) 0%, rgba(255, 119, 169, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 25px rgba(255, 119, 169, 0.45), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Style D: Gift Button */
+    .btn-style-d {
+      color: #fff9ea;
+      background: linear-gradient(135deg, #7b1fa2 0%, #ba68c8 50%, #ffd54f 100%);
+      border: 1.5px solid #ffd54f;
+      box-shadow: 0 6px 25px rgba(186, 104, 200, 0.5), inset 0 0 12px rgba(255, 213, 79, 0.4);
+    }
+
+    /* Style E: Cake Button */
+    .btn-style-e {
+      color: #230836;
+      background: linear-gradient(135deg, #fff2b2 0%, #ffca28 50%, #ff8f00 100%);
+      border: 1.5px solid #ffe082;
+      box-shadow: 0 6px 28px rgba(255, 143, 0, 0.55), inset 0 0 16px rgba(255, 255, 255, 0.8);
+    }
+
+    /* Style F: Finale Button */
+    .btn-style-f {
+      color: var(--gold-light);
+      background: rgba(18, 5, 28, 0.75);
+      border: 1.5px solid var(--gold-primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 16px rgba(245, 208, 97, 0.35);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-hidden {
+      display: none !important;
+    }
+
+    .stage-container {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px 95px;
+    }
+
+    .act-scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 65px 22px 100px;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.96) translateY(14px);
+      transition: opacity 0.75s ease, transform 0.75s var(--transition-smooth), visibility 0.75s;
+      pointer-events: none;
+    }
+
+    .act-scene.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    .gold-foil-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 5.2vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #fff3c4 0%, #ffd54f 35%, #d4af37 60%, #fff8e1 80%, #996515 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 3px 15px rgba(212, 175, 55, 0.45));
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .royal-subtitle {
+      font-family: var(--font-sans);
+      font-size: clamp(0.85rem, 2.3vw, 1.2rem);
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--pink-soft);
+      margin-bottom: 16px;
+      text-shadow: 0 2px 10px rgba(255, 119, 169, 0.4);
+    }
+
+    .poetic-paragraph {
+      font-family: var(--font-serif);
+      font-size: clamp(1.02rem, 2.6vw, 1.4rem);
+      line-height: 1.65;
+      color: rgba(255, 249, 234, 0.95);
+      max-width: 680px;
+      margin: 0 auto 18px;
+      font-style: italic;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .spotlight-cone {
+      position: absolute;
+      top: 15%;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 242, 178, 0.35) 0%, rgba(212, 175, 55, 0.12) 45%, transparent 70%);
+      filter: blur(20px);
+      pointer-events: none;
+      transition: all 1.2s ease;
+      animation: pulseSpotlight 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseSpotlight {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      100% { transform: scale(1.15); opacity: 0.95; }
+    }
+
+    .entrance-card {
+      position: relative;
+      z-index: 55;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .character-stage-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: clamp(10px, 3vw, 24px);
+      margin: 15px 0;
+      width: 100%;
+      max-width: 650px;
+      position: relative;
+    }
+
+    .character-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+    }
+
+    .char-svg {
+      width: clamp(70px, 16vw, 115px);
+      height: auto;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.6));
+    }
+
+    .char-bunny { animation: bunnyIdle 3.2s infinite ease-in-out; }
+    .char-bear  { animation: bearIdle 3.8s infinite ease-in-out 0.4s; }
+    .char-cat   { animation: catIdle 3.5s infinite ease-in-out 0.8s; }
+    .char-bird  { animation: birdIdle 2.8s infinite ease-in-out 0.2s; }
+
+    @keyframes bunnyIdle {
+      0%, 100% { transform: translateY(0) scale(1); }
+      40% { transform: translateY(-7px) scale(1.02); }
+      60% { transform: translateY(-3px) scale(0.99); }
+    }
+    @keyframes bearIdle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(1.5deg); }
+    }
+    @keyframes catIdle {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-5px) scale(1.01); }
+    }
+    @keyframes birdIdle {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      35% { transform: translateY(-10px) rotate(-3deg); }
+      70% { transform: translateY(-4px) rotate(3deg); }
+    }
+
+    .speech-bubble {
+      position: relative;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2b0a3d;
+      padding: 8px 14px;
+      border-radius: 16px;
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 600;
+      max-width: 140px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      margin-bottom: 8px;
+      opacity: 0;
+      transform: translateY(10px) scale(0.85);
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px 6px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.95) transparent;
+      display: block;
+      width: 0;
+    }
+    .speech-bubble.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .hero-gift-box {
+      width: clamp(140px, 34vw, 190px);
+      height: clamp(140px, 34vw, 190px);
+      background: linear-gradient(145deg, #4a156b, #210534);
+      border: 2px solid var(--gold-primary);
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 25px rgba(245, 208, 97, 0.35);
+      transition: all 0.4s var(--transition-smooth);
+      margin: 15px auto;
+      position: relative;
+    }
+    .hero-gift-box:hover {
+      transform: scale(1.06) rotate(1deg);
+      box-shadow: 0 15px 40px rgba(245, 208, 97, 0.55);
+    }
+    .hero-gift-box.opened {
+      background: linear-gradient(145deg, #7b1fa2, #4a148c);
+      border-color: #ffd700;
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.7);
+    }
+
+    .pandal-frame {
+      position: relative;
+      width: 100%;
+      max-width: 660px;
+      padding: 24px;
+      border: 2px solid rgba(245, 208, 97, 0.4);
+      border-radius: 36px;
+      background: radial-gradient(circle at 50% 30%, rgba(55, 14, 85, 0.7) 0%, rgba(20, 4, 34, 0.85) 100%);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(212, 175, 55, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pandal-lights-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    .pandal-bulb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #4a2364;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      transition: all 0.5s ease;
+    }
+    .pandal-bulb.lit {
+      background: #ffd700;
+      box-shadow: 0 0 16px #ffd700, 0 0 30px #ff9100;
+    }
+
+    .firefly-zone {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      height: 240px;
+      margin: 10px 0;
+      border-radius: 24px;
+      background: radial-gradient(ellipse at bottom, rgba(30, 15, 55, 0.6) 0%, rgba(10, 3, 20, 0.8) 100%);
+      border: 1px solid rgba(245, 208, 97, 0.2);
+      overflow: hidden;
+    }
+
+    .firefly-node {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .firefly-core {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #fffb8f;
+      box-shadow: 0 0 15px #ffd700, 0 0 30px #ffe57f;
+      animation: fireflyGlow 2.2s infinite alternate ease-in-out;
+    }
+
+    @keyframes fireflyGlow {
+      0% { opacity: 0.4; transform: scale(0.85); box-shadow: 0 0 8px #ffd700; }
+      100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 22px #fffb8f, 0 0 35px #ffb300; }
+    }
+
+    .firefly-popup {
+      position: absolute;
+      top: -32px;
+      white-space: nowrap;
+      background: rgba(255, 255, 255, 0.95);
+      color: #240737;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.4s ease;
+    }
+    .firefly-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .portrait-stage {
+      position: relative;
+      width: clamp(200px, 48vw, 290px);
+      height: clamp(200px, 48vw, 290px);
+      margin: 10px auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-halo {
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #ffd700, #ff77a9, #b39ddb, #ffd700);
+      animation: rotateRing 14s linear infinite;
+      filter: blur(8px);
+      opacity: 0.7;
+    }
+
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .portrait-frame-outer {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 3px solid var(--gold-primary);
+      box-shadow: 0 0 25px rgba(245, 208, 97, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+
+    .portrait-img-box {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      background: radial-gradient(circle, #431263 0%, #1d052d 100%);
+      border: 4px solid #fff3c4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .portrait-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portrait-placeholder {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #551a8b 0%, #200539 100%);
+      color: var(--gold-light);
+      text-align: center;
+      padding: 10px;
+    }
+
+    .portrait-placeholder-icon {
+      font-size: 2.8rem;
+      margin-bottom: 4px;
+      filter: drop-shadow(0 0 10px var(--gold-primary));
+    }
+
+    .portrait-placeholder-initials {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold-primary);
+    }
+
+    .balloon-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 550px;
+      margin: 15px 0;
+    }
+
+    .wish-balloon {
+      background: linear-gradient(135deg, rgba(255, 119, 169, 0.8) 0%, rgba(138, 43, 226, 0.8) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      padding: 18px 16px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset -4px -4px 10px rgba(0,0,0,0.3);
+      transition: all 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      height: 95px;
+      position: relative;
+    }
+
+    .wish-balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 12px;
+      background: rgba(255, 242, 178, 0.7);
+    }
+
+    .wish-balloon.floated {
+      transform: translateY(-90px) scale(0.65);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .envelope-box {
+      width: clamp(260px, 60vw, 360px);
+      padding: 24px;
+      background: linear-gradient(135deg, #2b1142 0%, #150523 100%);
+      border: 2px solid var(--gold-primary);
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 20px rgba(245, 208, 97, 0.3);
+      transition: all 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px auto;
+    }
+    .envelope-box:hover {
+      transform: scale(1.04);
+      box-shadow: 0 15px 40px rgba(245, 208, 97, 0.45);
+    }
+
+    .parchment-letter-wrapper {
+      max-height: 55dvh;
+      overflow-y: auto;
+      background: #fdfaf2;
+      color: #2c1a0e;
+      border-radius: 16px;
+      padding: clamp(18px, 4vw, 32px);
+      border: 2px solid #dfc79b;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.8), inset 0 0 35px rgba(212, 175, 55, 0.15);
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: left;
+      font-family: var(--font-serif);
+      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
+      line-height: 1.7;
+    }
+
+    .parchment-letter-wrapper p {
+      margin-bottom: 14px;
+    }
+
+    .parchment-signature {
+      margin-top: 24px;
+      text-align: right;
+      font-style: italic;
+      color: #6d4c2b;
+      font-weight: 600;
+    }
+
+    .cake-container {
+      position: relative;
+      width: 220px;
+      height: 190px;
+      margin: 15px auto 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .cake-tier {
+      border-radius: 14px 14px 8px 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .cake-tier-bottom {
+      width: 200px;
+      height: 65px;
+      background: linear-gradient(180deg, #fcedc7 0%, #ecd39c 100%);
+      border: 2px solid #dfbe76;
+    }
+    .cake-tier-top {
+      width: 145px;
+      height: 52px;
+      background: linear-gradient(180deg, #ffeef6 0%, #f7c5dc 100%);
+      border: 2px solid #eaa2c4;
+      margin-bottom: -4px;
+      z-index: 2;
+    }
+
+    .cake-icing {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 14px;
+      background: #ffffff;
+      border-radius: 12px 12px 6px 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .candle-group {
+      display: flex;
+      gap: 16px;
+      position: absolute;
+      top: 30px;
+      z-index: 5;
+    }
+
+    .candle {
+      width: 10px;
+      height: 42px;
+      background: repeating-linear-gradient(45deg, #ffd700, #ffd700 4px, #ffffff 4px, #ffffff 8px);
+      border-radius: 4px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .candle-wick {
+      position: absolute;
+      top: -6px;
+      left: 4px;
+      width: 2px;
+      height: 6px;
+      background: #333;
+    }
+
+    .candle-flame {
+      position: absolute;
+      top: -20px;
+      left: -2px;
+      width: 14px;
+      height: 20px;
+      background: radial-gradient(ellipse at bottom, #fff7b2 0%, #ff9800 65%, #ff3d00 100%);
+      border-radius: 50% 50% 35% 35% / 60% 60% 40% 40%;
+      box-shadow: 0 0 12px #ffb300, 0 0 22px #ff9800;
+      animation: flickerFlame 0.8s infinite alternate ease-in-out;
+      transform-origin: center bottom;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    @keyframes flickerFlame {
+      0% { transform: scale(1) rotate(-2deg); }
+      100% { transform: scale(1.15) rotate(3deg); }
+    }
+
+    .candle-flame.extinguished {
+      opacity: 0;
+      transform: scale(0.2) translateY(-10px);
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.4); border-radius: 10px; }
+
+    @media (max-width: 480px) {
+      .stage-container { padding: 50px 14px 85px; }
+      .pandal-frame { padding: 18px 12px; border-radius: 26px; }
+      .parchment-letter-wrapper { max-height: 50dvh; padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient FX Canvas -->
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- Ambient Visual Backdrop -->
+  <div class="ambient-backdrop" id="ambient-bg">
+    <div class="ambient-glow-circle" id="ambient-glow"></div>
+  </div>
+
+  <!-- Royal Velvet Theatre Curtains -->
+  <div class="theatre-viewport" id="theatre-viewport">
+    <div class="theatre-valance">
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+      <div class="valance-scallop"></div>
+    </div>
+    <div class="curtain-panel curtain-left" id="curtain-left">
+      <div class="curtain-tassel"></div>
+    </div>
+    <div class="curtain-panel curtain-right" id="curtain-right">
+      <div class="curtain-tassel"></div>
+    </div>
+  </div>
+
+  <!-- HUD Top Bar -->
+  <header class="top-bar">
+    <button class="nav-btn hidden" id="btn-back" aria-label="Previous Chapter" title="Previous Chapter">‹</button>
+    <div style="font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); opacity: 0.8;" id="chapter-tag">
+      THEATRE ENTRANCE
+    </div>
+    <button class="nav-btn" id="btn-audio" aria-label="Toggle Celebration Music" title="Sound toggle">♪</button>
+  </header>
+
+  <!-- Audio Element -->
+  <audio id="bg-audio" preload="auto" loop src="happy-birthday.mp3"></audio>
+
+  <main class="stage-container">
+
+    <!-- CHAPTER 1: THEATRE ENTRANCE -->
+    <section class="act-scene active" id="scene-1">
+      <div class="spotlight-cone"></div>
+      <div class="entrance-card">
+        <div style="font-size: 0.78rem; letter-spacing: 4px; text-transform: uppercase; color: rgba(255, 243, 196, 0.7); margin-bottom: 8px;">
+          A LITTLE BIRTHDAY SURPRISE
+        </div>
+        <h1 class="gold-foil-title" style="font-size: clamp(2.4rem, 7vw, 4.4rem); margin-bottom: 4px;">KANCHAN ✨</h1>
+        <div class="royal-subtitle" style="color: var(--gold-primary); letter-spacing: 6px; font-weight: 600;">06 OCTOBER</div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 2: WELCOME TO NIGHT OF MAGIC -->
+    <section class="act-scene" id="scene-2">
+      <div class="royal-subtitle">Welcome to a Little Night of Magic ✨</div>
+      <h2 class="gold-foil-title">Tonight Belongs to You</h2>
+      <p class="poetic-paragraph">Step across the threshold into an enchanted palace crafted of starlight, gold velvet, and celebratory warmth.</p>
+    </section>
+
+    <!-- CHAPTER 3: THE GOLDEN PATHWAY -->
+    <section class="act-scene" id="scene-3">
+      <div class="royal-subtitle">The Illuminated Walkway</div>
+      <h2 class="gold-foil-title">The Golden Path</h2>
+      <p class="poetic-paragraph">Every step ahead ignites with blooming blossoms, fragrant lavender petals, and shimmering lanterns guiding your evening.</p>
+    </section>
+
+    <!-- CHAPTER 4: ENTER CELEBRATION PANDAL -->
+    <section class="act-scene" id="scene-4">
+      <div class="royal-subtitle">Grand Celebration Venue</div>
+      <h2 class="gold-foil-title">The Royal Pandal</h2>
+      <p class="poetic-paragraph">Draped in royal purple velvet, crystalline chandeliers, and gold floral arches standing in wait for the birthday girl.</p>
+    </section>
+
+    <!-- CHAPTER 5: MEET ANIMATED CHARACTERS -->
+    <section class="act-scene" id="scene-5">
+      <div class="royal-subtitle">Friendly Companions</div>
+      <h2 class="gold-foil-title">Four Special Friends</h2>
+      <div class="character-stage-row">
+        <!-- Bunny -->
+        <div class="character-wrap">
+          <svg class="char-svg char-bunny" viewBox="0 0 100 125">
+            <ellipse cx="38" cy="24" rx="7" ry="22" fill="#fffaf0" stroke="#d4af37" stroke-width="1.5"/>
+            <ellipse cx="38" cy="24" rx="4" ry="16" fill="#f8bbd0"/>
+            <ellipse cx="62" cy="24" rx="7" ry="22" fill="#fffaf0" stroke="#d4af37" stroke-width="1.5"/>
+            <ellipse cx="62" cy="24" rx="4" ry="16" fill="#f8bbd0"/>
+            <polygon points="50,2 41,25 59,25" fill="#ffd700"/>
+            <circle cx="50" cy="52" r="26" fill="#fffaf0" stroke="#d4af37" stroke-width="1.5"/>
+            <circle cx="42" cy="49" r="3.2" fill="#2c0c3e"/>
+            <circle cx="58" cy="49" r="3.2" fill="#2c0c3e"/>
+            <polygon points="50,54 47,52 53,52" fill="#ff4081"/>
+            <ellipse cx="50" cy="94" rx="22" ry="24" fill="#fffaf0" stroke="#d4af37" stroke-width="1.5"/>
+            <path d="M35 80 Q50 90 65 80 L63 105 Q50 110 37 105 Z" fill="#ffd54f"/>
+          </svg>
+        </div>
+        <!-- Bear -->
+        <div class="character-wrap">
+          <svg class="char-svg char-bear" viewBox="0 0 100 125">
+            <circle cx="30" cy="30" r="11" fill="#9e6638" stroke="#d4af37" stroke-width="1.5"/>
+            <circle cx="70" cy="30" r="11" fill="#9e6638" stroke="#d4af37" stroke-width="1.5"/>
+            <circle cx="50" cy="54" r="28" fill="#a97446" stroke="#d4af37" stroke-width="1.5"/>
+            <ellipse cx="50" cy="62" rx="13" ry="10" fill="#edd0b7"/>
+            <ellipse cx="50" cy="58" rx="5" ry="3.5" fill="#281102"/>
+            <circle cx="41" cy="49" r="3" fill="#1b0800"/>
+            <circle cx="59" cy="49" r="3" fill="#1b0800"/>
+            <ellipse cx="50" cy="98" rx="25" ry="24" fill="#a97446" stroke="#d4af37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <!-- Cat -->
+        <div class="character-wrap">
+          <svg class="char-svg char-cat" viewBox="0 0 100 125">
+            <polygon points="30,22 20,44 42,40" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+            <polygon points="70,22 80,44 58,40" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+            <polygon points="43,26 46,16 50,22 54,16 57,26" fill="#ffd700"/>
+            <circle cx="50" cy="52" r="25" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+            <ellipse cx="40" cy="50" rx="3.5" ry="4" fill="#1e88e5"/>
+            <ellipse cx="60" cy="50" rx="3.5" ry="4" fill="#1e88e5"/>
+            <polygon points="50,56 48,54 52,54" fill="#f06292"/>
+            <ellipse cx="50" cy="94" rx="20" ry="22" fill="#fdfbf7" stroke="#d4af37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <!-- Bird -->
+        <div class="character-wrap">
+          <svg class="char-svg char-bird" viewBox="0 0 100 125">
+            <polygon points="50,15 44,32 56,32" fill="#ffd700"/>
+            <ellipse cx="50" cy="56" rx="22" ry="24" fill="#80deea" stroke="#d4af37" stroke-width="1.5"/>
+            <polygon points="32,54 20,58 32,62" fill="#ff9800"/>
+            <circle cx="39" cy="50" r="3.5" fill="#004d40"/>
+            <ellipse cx="62" cy="58" rx="14" ry="10" fill="#4dd0e1"/>
+          </svg>
+        </div>
+      </div>
+      <p class="poetic-paragraph">They’ve prepared every single corner of this magical venue just to celebrate you!</p>
+    </section>
+
+    <!-- CHAPTER 6: CHARACTER WELCOME SPEECHES -->
+    <section class="act-scene" id="scene-6">
+      <div class="royal-subtitle">Heartfelt Welcome</div>
+      <h2 class="gold-foil-title">"Let's Celebrate! 🎉"</h2>
+      <div class="character-stage-row">
+        <div class="character-wrap">
+          <div class="speech-bubble show">Yay! It's Kanchan's Birthday!</div>
+          <svg class="char-svg char-bunny" viewBox="0 0 100 125"><ellipse cx="50" cy="52" r="26" fill="#fffaf0"/></svg>
+        </div>
+        <div class="character-wrap">
+          <div class="speech-bubble show">We saved the best surprises!</div>
+          <svg class="char-svg char-bear" viewBox="0 0 100 125"><circle cx="50" cy="54" r="28" fill="#a97446"/></svg>
+        </div>
+      </div>
+      <p class="poetic-paragraph">The courtyard is alive with excitement as five golden gift chests appear along your path.</p>
+    </section>
+
+    <!-- CHAPTER 7: GIFT 1 (HAPPINESS) -->
+    <section class="act-scene" id="scene-7">
+      <div class="royal-subtitle">Gift Chest #1</div>
+      <h2 class="gold-foil-title">Gift of Happiness</h2>
+      <div class="hero-gift-box" onclick="interactHeroGift(this, 'May your days always overflow with countless reasons to smile.')">
+        <div style="font-size: 3rem;">🎁</div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: var(--gold-light); margin-top: 6px;">HAPPINESS</div>
+      </div>
+      <div class="poetic-paragraph gift-message-text" style="min-height: 48px;">Tap the box to unlock its golden blessing.</div>
+    </section>
+
+    <!-- CHAPTER 8: GIFT 2 (DREAMS) -->
+    <section class="act-scene" id="scene-8">
+      <div class="royal-subtitle">Gift Chest #2</div>
+      <h2 class="gold-foil-title">Gift of Dreams</h2>
+      <div class="hero-gift-box" onclick="interactHeroGift(this, 'May the dreams you hold closest quietly and steadily become real.')">
+        <div style="font-size: 3rem;">✨</div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: var(--gold-light); margin-top: 6px;">DREAMS</div>
+      </div>
+      <div class="poetic-paragraph gift-message-text" style="min-height: 48px;">Tap the box to release its celestial starlight.</div>
+    </section>
+
+    <!-- CHAPTER 9: GIFT 3 (SUCCESS) -->
+    <section class="act-scene" id="scene-9">
+      <div class="royal-subtitle">Gift Chest #3</div>
+      <h2 class="gold-foil-title">Gift of Success</h2>
+      <div class="hero-gift-box" onclick="interactHeroGift(this, 'May your dedication and wisdom blossom into rewarding triumphs.')">
+        <div style="font-size: 3rem;">🏆</div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: var(--gold-light); margin-top: 6px;">SUCCESS</div>
+      </div>
+      <div class="poetic-paragraph gift-message-text" style="min-height: 48px;">Tap the box to receive its golden ribbons.</div>
+    </section>
+
+    <!-- CHAPTER 10: GIFT 4 (PEACE) -->
+    <section class="act-scene" id="scene-10">
+      <div class="royal-subtitle">Gift Chest #4</div>
+      <h2 class="gold-foil-title">Gift of Peace</h2>
+      <div class="hero-gift-box" onclick="interactHeroGift(this, 'May tranquil mornings and deeply calm thoughts always accompany you.')">
+        <div style="font-size: 3rem;">🕊️</div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: var(--gold-light); margin-top: 6px;">PEACE</div>
+      </div>
+      <div class="poetic-paragraph gift-message-text" style="min-height: 48px;">Tap the box to breathe in soft lavender serenity.</div>
+    </section>
+
+    <!-- CHAPTER 11: GIFT 5 (JOY) -->
+    <section class="act-scene" id="scene-11">
+      <div class="royal-subtitle">Gift Chest #5</div>
+      <h2 class="gold-foil-title">Gift of Joy</h2>
+      <div class="hero-gift-box" onclick="interactHeroGift(this, 'May you never run out of little moments that make your heart glow.')">
+        <div style="font-size: 3rem;">🌸</div>
+        <div style="font-size: 0.85rem; letter-spacing: 2px; color: var(--gold-light); margin-top: 6px;">JOY</div>
+      </div>
+      <div class="poetic-paragraph gift-message-text" style="min-height: 48px;">Tap the box to unleash the shower of pink petals.</div>
+    </section>
+
+    <!-- CHAPTER 12: THE GRAND FINAL GIFT -->
+    <section class="act-scene" id="scene-12">
+      <div class="royal-subtitle">The Grand Chest</div>
+      <h2 class="gold-foil-title">A Regal Treasure</h2>
+      <div class="hero-gift-box" style="transform: scale(1.15);" onclick="interactGrandGift(this)">
+        <div style="font-size: 3.5rem;">👑</div>
+        <div style="font-size: 0.9rem; letter-spacing: 2px; color: var(--gold-primary); font-weight: 700; margin-top: 6px;">FOR KANCHAN</div>
+      </div>
+      <div class="poetic-paragraph" id="grand-gift-msg">Unwrap the grand gift to awaken the palace lights!</div>
+    </section>
+
+    <!-- CHAPTER 13: PANDAL LIGHT SHOW -->
+    <section class="act-scene" id="scene-13">
+      <div class="royal-subtitle">Synchronized Illumination</div>
+      <h2 class="gold-foil-title">Pandal Light Show</h2>
+      <div class="pandal-frame">
+        <div class="pandal-lights-row" id="pandal-bulbs-container">
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+          <div class="pandal-bulb"></div>
+        </div>
+        <p class="poetic-paragraph" style="margin-bottom: 0;">Entrance bulbs, chandeliers, and canopy fairy lights ignite in sparkling harmony!</p>
+      </div>
+    </section>
+
+    <!-- CHAPTER 14: FLOWER ARCH IN BLOOM -->
+    <section class="act-scene" id="scene-14">
+      <div class="royal-subtitle">Fragrant Archway</div>
+      <h2 class="gold-foil-title">Blooming Petals</h2>
+      <div style="font-size: 4rem; margin: 10px 0;">🌺 🌸 🌼 🌸 🌺</div>
+      <p class="poetic-paragraph">"A little beauty for a truly beautiful day." Roses, orchids, and baby's breath uncurl as you draw near.</p>
+    </section>
+
+    <!-- CHAPTER 15: MAGIC GARDEN & LAKE -->
+    <section class="act-scene" id="scene-15">
+      <div class="royal-subtitle">Enchanted Nature</div>
+      <h2 class="gold-foil-title">The Moonlit Lake</h2>
+      <div style="font-size: 3.5rem; margin: 8px 0;">🌙 🌊 🪷</div>
+      <p class="poetic-paragraph">The waters reflect the silver moon as soft breezes carry delicate glowing ripples to the shore.</p>
+    </section>
+
+    <!-- CHAPTER 16: INTERACTIVE FIREFLIES / WISH LANTERNS -->
+    <section class="act-scene" id="scene-16">
+      <div class="royal-subtitle">Action Required: Touch The Lights ✨</div>
+      <h2 class="gold-foil-title">Wishing Fireflies</h2>
+      <p class="poetic-paragraph">Touch the hovering fireflies to uncover their secrets before crossing further.</p>
+      <div class="firefly-zone" id="firefly-playground">
+        <div class="firefly-node" style="top: 25%; left: 18%;" onclick="touchFirefly(this, 'More laughter')">
+          <div class="firefly-core"></div>
+          <div class="firefly-popup">More laughter</div>
+        </div>
+        <div class="firefly-node" style="top: 60%; left: 32%;" onclick="touchFirefly(this, 'More adventures')">
+          <div class="firefly-core"></div>
+          <div class="firefly-popup">More adventures</div>
+        </div>
+        <div class="firefly-node" style="top: 20%; left: 65%;" onclick="touchFirefly(this, 'More confidence')">
+          <div class="firefly-core"></div>
+          <div class="firefly-popup">More confidence</div>
+        </div>
+        <div class="firefly-node" style="top: 68%; left: 72%;" onclick="touchFirefly(this, 'More beautiful beginnings')">
+          <div class="firefly-core"></div>
+          <div class="firefly-popup">More beautiful beginnings</div>
+        </div>
+        <div class="firefly-node" style="top: 42%; left: 48%;" onclick="touchFirefly(this, 'More peaceful days')">
+          <div class="firefly-core"></div>
+          <div class="firefly-popup">More peaceful days</div>
+        </div>
+      </div>
+      <div id="fireflies-status-text" style="font-size: 0.95rem; color: var(--gold-light); min-height: 24px;">Touch at least 3 fireflies to proceed.</div>
+    </section>
+
+    <!-- CHAPTER 17: BIRTHDAY GIRL PORTRAIT REVEAL -->
+    <section class="act-scene" id="scene-17">
+      <div class="royal-subtitle">Spotlight on the Birthday Girl ✨</div>
+      <h2 class="gold-foil-title">Kanchan Mahtha</h2>
+      <div class="portrait-stage">
+        <div class="portrait-halo"></div>
+        <div class="portrait-frame-outer"></div>
+        <div class="portrait-img-box">
+          <img src="26.png" alt="Kanchan Mahtha" id="portrait-img" onerror="portraitLoadError(this)">
+          <div class="portrait-placeholder" id="portrait-placeholder">
+            <div class="portrait-placeholder-icon">👑</div>
+            <div class="portrait-placeholder-initials">KM</div>
+            <div style="font-size: 0.75rem; letter-spacing: 1.5px; margin-top: 4px; text-transform: uppercase;">Kanchan Mahtha</div>
+          </div>
+        </div>
+      </div>
+      <div class="royal-subtitle" style="color: var(--gold-primary); letter-spacing: 5px; font-weight: 600;">06 • OCTOBER</div>
+      <p class="poetic-paragraph">May your radiant grace and brilliant spirit illuminate every day of the year ahead.</p>
+    </section>
+
+    <!-- CHAPTER 18: CHARACTER WISH PARADE -->
+    <section class="act-scene" id="scene-18">
+      <div class="royal-subtitle">A Chorus of Blessings</div>
+      <h2 class="gold-foil-title">The Wish Parade</h2>
+      <div class="character-stage-row">
+        <div class="character-wrap">
+          <div class="speech-bubble show">Smile brightly! ✨</div>
+          <svg class="char-svg char-bunny" viewBox="0 0 100 125"><ellipse cx="50" cy="52" r="26" fill="#fffaf0"/></svg>
+        </div>
+        <div class="character-wrap">
+          <div class="speech-bubble show">Soar high! ✨</div>
+          <svg class="char-svg char-bird" viewBox="0 0 100 125"><ellipse cx="50" cy="56" rx="22" ry="24" fill="#80deea"/></svg>
+        </div>
+      </div>
+      <p class="poetic-paragraph">"May your days be full of laughter, and may peaceful moments always find you!"</p>
+    </section>
+
+    <!-- CHAPTER 19: WISH BALLOON RELEASE SKY -->
+    <section class="act-scene" id="scene-19">
+      <div class="royal-subtitle">Action Required: Tap The Balloons 🎈</div>
+      <h2 class="gold-foil-title">Ascending Desires</h2>
+      <p class="poetic-paragraph">Tap the lanterns and balloons to release them into the velvet sky.</p>
+      <div class="balloon-cluster">
+        <div class="wish-balloon" onclick="popBalloon(this)">HAPPINESS 🎈</div>
+        <div class="wish-balloon" onclick="popBalloon(this)">CONFIDENCE 🎈</div>
+        <div class="wish-balloon" onclick="popBalloon(this)">SUCCESS 🎈</div>
+        <div class="wish-balloon" onclick="popBalloon(this)">DREAMS 🎈</div>
+        <div class="wish-balloon" onclick="popBalloon(this)">JOY 🎈</div>
+      </div>
+      <div id="balloon-status-text" style="font-size: 0.95rem; color: var(--gold-light); min-height: 24px;">Release at least 2 balloons to continue.</div>
+    </section>
+
+    <!-- CHAPTER 20: THE BIRTHDAY LETTER ROOM -->
+    <section class="act-scene" id="scene-20">
+      <div class="royal-subtitle">A Heartfelt Birthday Note</div>
+      <h2 class="gold-foil-title">For Kanchan</h2>
+      <div id="letter-closed-view">
+        <div class="envelope-box" onclick="openParchmentLetter()">
+          <div style="font-size: 3rem; margin-bottom: 8px;">✉️</div>
+          <div style="font-weight: 700; letter-spacing: 2px; color: var(--gold-light);">FOR KANCHAN</div>
+          <div style="font-size: 0.8rem; letter-spacing: 1.5px; color: var(--pink-soft); margin-top: 4px;">TAP SEAL TO OPEN</div>
+        </div>
+      </div>
+      <div id="letter-open-view" style="display: none; width: 100%;">
+        <div class="parchment-letter-wrapper">
+          <p><strong>Dear Kanchan,</strong></p>
+          <p>Today is your day, so here is a little wish made especially for this moment.</p>
+          <p>May the year ahead bring you peaceful mornings, genuine happiness, beautiful surprises, and countless reasons to smile.</p>
+          <p>May the dreams you carry slowly find their way closer to reality.</p>
+          <p>May your hard work turn into success, your difficult days become lighter, and your ordinary days become filled with little moments worth remembering.</p>
+          <p>May you discover new possibilities, experience beautiful beginnings, and create memories that make you smile.</p>
+          <p>I hope this new year of your life brings you more happiness than you expect, more confidence than you doubt, and more beautiful moments than you can count.</p>
+          <p>No complicated words.<br>No expectations.<br>Just a simple birthday wish:</p>
+          <p>May life be kind to you.<br>May your dreams grow.<br>May your smile stay bright.<br>And may this year become one of your beautiful chapters.</p>
+          <p><strong>Happy Birthday, Kanchan. ✨</strong></p>
+          <p>Have a truly wonderful year ahead.</p>
+          <div class="parchment-signature">— An anonymous birthday wish</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER 21: LETTER MAGIC TRANSFORMATION -->
+    <section class="act-scene" id="scene-21">
+      <div class="royal-subtitle">Celestial Alchemy</div>
+      <h2 class="gold-foil-title">Stars of Goodwill</h2>
+      <div style="font-size: 3.5rem; margin: 12px 0;">✨ 🌟 🦋 💫</div>
+      <p class="poetic-paragraph">The parchment dissolves into glowing golden butterflies that flutter out across the night horizon.</p>
+    </section>
+
+    <!-- CHAPTER 22: CHARACTER CELEBRATION DANCE -->
+    <section class="act-scene" id="scene-22">
+      <div class="royal-subtitle">Courtyard Jubilee</div>
+      <h2 class="gold-foil-title">The Happy Dance</h2>
+      <div class="character-stage-row">
+        <svg class="char-svg char-bunny" style="transform: scale(1.2);" viewBox="0 0 100 125"><ellipse cx="50" cy="52" r="26" fill="#fffaf0"/></svg>
+        <svg class="char-svg char-cat" style="transform: scale(1.2);" viewBox="0 0 100 125"><circle cx="50" cy="52" r="25" fill="#fdfbf7"/></svg>
+      </div>
+      <p class="poetic-paragraph">Everyone is dancing as the main stage curtains prepare to unveil the centerpiece.</p>
+    </section>
+
+    <!-- CHAPTER 23: THE GRAND BIRTHDAY STAGE -->
+    <section class="act-scene" id="scene-23">
+      <div class="royal-subtitle">Grand Stage</div>
+      <h2 class="gold-foil-title">Center Stage</h2>
+      <div style="font-size: 3.5rem; margin: 10px 0;">🎭 🏛️ ✨</div>
+      <p class="poetic-paragraph">Purple velvet valances and golden footlights surround the center stage. Something sweet awaits!</p>
+    </section>
+
+    <!-- CHAPTER 24: BLOW THE CANDLES & BIRTHDAY CAKE -->
+    <section class="act-scene" id="scene-24">
+      <div class="royal-subtitle">Action Required: Make a Secret Wish 🎂</div>
+      <h2 class="gold-foil-title">The Birthday Cake</h2>
+      <div class="cake-container">
+        <div class="candle-group">
+          <div class="candle"><div class="candle-wick"></div><div class="candle-flame"></div></div>
+          <div class="candle"><div class="candle-wick"></div><div class="candle-flame"></div></div>
+          <div class="candle"><div class="candle-wick"></div><div class="candle-flame"></div></div>
+        </div>
+        <div class="cake-tier cake-tier-top"><div class="cake-icing"></div></div>
+        <div class="cake-tier cake-tier-bottom"><div class="cake-icing"></div></div>
+      </div>
+      <div style="margin-top: 5px;">
+        <button class="ctx-btn btn-style-e" id="btn-blow-candles" onclick="blowCakeCandles(this)">BLOW THE CANDLES 🎂</button>
+      </div>
+    </section>
+
+    <!-- CHAPTER 25: FIREWORKS FINALE & PEACEFUL BLESSING -->
+    <section class="act-scene" id="scene-25">
+      <div class="royal-subtitle">Peaceful Night Blessing</div>
+      <h2 class="gold-foil-title">Happy Birthday, Kanchan. ✨</h2>
+      <p class="poetic-paragraph" style="max-width: 580px;">"May your year ahead be filled with happiness, confidence, success, laughter and beautiful surprises. Have a truly wonderful day."</p>
+      <div style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--gold-light); margin-bottom: 20px;">
+        06 OCTOBER
+      </div>
+      <div style="font-size: 0.82rem; font-style: italic; color: rgba(255, 242, 178, 0.75); letter-spacing: 1px; margin-top: 15px;">
+        — An anonymous birthday wish
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bottom-hud">
+    <!-- Chapter Action Buttons (Dynamic Contextual System) -->
+    <div id="hud-actions-container">
+      <!-- Button 1 (Entrance) -->
+      <button class="ctx-btn btn-style-b" id="btn-act-1" onclick="handleEntranceCurtainClick(this)">OPEN THE CURTAINS ✨</button>
+      <!-- Button 2 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-2" onclick="nextChapter()">LET’S BEGIN →</button>
+      <!-- Button 3 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-3" onclick="nextChapter()">FOLLOW THE LIGHT →</button>
+      <!-- Button 4 -->
+      <button class="ctx-btn btn-style-b btn-hidden" id="btn-act-4" onclick="nextChapter()">ENTER THE CELEBRATION ✨</button>
+      <!-- Button 5 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-5" onclick="nextChapter()">WALK A LITTLE FURTHER →</button>
+      <!-- Button 6 -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-6" onclick="nextChapter()">MEET THE NEXT FRIEND →</button>
+      <!-- Button 7 -->
+      <button class="ctx-btn btn-style-d btn-hidden" id="btn-act-7" onclick="nextChapter()">OPEN THE NEXT GIFT 🎁</button>
+      <!-- Button 8 -->
+      <button class="ctx-btn btn-style-d btn-hidden" id="btn-act-8" onclick="nextChapter()">OPEN THE NEXT GIFT 🎁</button>
+      <!-- Button 9 -->
+      <button class="ctx-btn btn-style-d btn-hidden" id="btn-act-9" onclick="nextChapter()">OPEN THE NEXT GIFT 🎁</button>
+      <!-- Button 10 -->
+      <button class="ctx-btn btn-style-d btn-hidden" id="btn-act-10" onclick="nextChapter()">OPEN THE NEXT GIFT 🎁</button>
+      <!-- Button 11 -->
+      <button class="ctx-btn btn-style-d btn-hidden" id="btn-act-11" onclick="nextChapter()">OPEN THE FINAL GIFT 👑</button>
+      <!-- Button 12 (Grand Gift -> Pandal) -->
+      <button class="ctx-btn btn-style-b btn-hidden" id="btn-act-12" onclick="nextChapter()">BEHOLD THE LIGHTS ✨</button>
+      <!-- Button 13 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-13" onclick="nextChapter()">APPROACH THE GARDEN →</button>
+      <!-- Button 14 -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-14" onclick="nextChapter()">WALK THROUGH THE BLOOMS 🌸</button>
+      <!-- Button 15 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-15" onclick="nextChapter()">CROSS THE MOONLIGHT →</button>
+      <!-- Button 16 (Gated by fireflies) -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-16" onclick="nextChapter()">RELEASE THE WISH ✨</button>
+      <!-- Button 17 (Portrait) -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-17" onclick="nextChapter()">SEE YOUR WISHES ✨</button>
+      <!-- Button 18 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-18" onclick="nextChapter()">LOOK TO THE SKY 🎈</button>
+      <!-- Button 19 (Gated by balloons) -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-19" onclick="nextChapter()">LET THE WISHES GLOW ✨</button>
+      <!-- Button 20 (Letter) -->
+      <button class="ctx-btn btn-style-c btn-hidden" id="btn-act-20" onclick="nextChapter()">FOLLOW THE STARS →</button>
+      <!-- Button 21 -->
+      <button class="ctx-btn btn-style-a btn-hidden" id="btn-act-21" onclick="nextChapter()">JOIN THE DANCE 💃</button>
+      <!-- Button 22 -->
+      <button class="ctx-btn btn-style-b btn-hidden" id="btn-act-22" onclick="nextChapter()">RAISE THE CURTAIN ✨</button>
+      <!-- Button 23 -->
+      <button class="ctx-btn btn-style-e btn-hidden" id="btn-act-23" onclick="nextChapter()">MAKE A WISH 🎂</button>
+      <!-- Button 24 (Gated by candle blow) -->
+      <button class="ctx-btn btn-style-e btn-hidden" id="btn-act-24" onclick="nextChapter()">MAKE THE CELEBRATION BEGIN 🎉</button>
+      <!-- Button 25 (Finale) -->
+      <button class="ctx-btn btn-style-f btn-hidden" id="btn-act-25" onclick="goToScene(1)">EXPERIENCE IT AGAIN ↺</button>
+    </div>
+
+    <!-- Chapter Progress Constellation Dots (25 Chapters) -->
+    <div class="progress-dots-row" id="progress-dots"></div>
+  </footer>
+
+  <script>
+    const TOTAL_CHAPTERS = 25;
+    let currentChapter = 1;
+    let audioPlaying = false;
+    let audioCtx = null;
+    let synthTimer = null;
+
+    // Gate interaction trackers
+    let firefliesTouched = 0;
+    let balloonsReleased = 0;
+    let letterOpened = false;
+    let candlesExtinguished = false;
+
+    // Elements
+    const theatreViewport = document.getElementById('theatre-viewport');
+    const btnBack = document.getElementById('btn-back');
+    const btnAudio = document.getElementById('btn-audio');
+    const bgAudioEl = document.getElementById('bg-audio');
+    const chapterTag = document.getElementById('chapter-tag');
+    const progressContainer = document.getElementById('progress-dots');
+
+    const chapterTitles = [
+      "THEATRE ENTRANCE", "NIGHT OF MAGIC", "THE GOLDEN PATH", "ROYAL PANDAL", 
+      "MEET THE FRIENDS", "WELCOME GREETINGS", "GIFT OF HAPPINESS", "GIFT OF DREAMS", 
+      "GIFT OF SUCCESS", "GIFT OF PEACE", "GIFT OF JOY", "GRAND TREASURE", 
+      "PANDAL LIGHTS", "BLOOMING ARCH", "MOONLIT LAKE", "WISHING FIREFLIES", 
+      "KANCHAN MAHTHA", "WISH PARADE", "WISH BALLOONS", "BIRTHDAY LETTER", 
+      "CELESTIAL STARS", "HAPPY DANCE", "THE GRAND STAGE", "BIRTHDAY CAKE", 
+      "FIREWORKS FINALE"
+    ];
+
+    // Build Progress Dots
+    for (let i = 1; i <= TOTAL_CHAPTERS; i++) {
+      const dot = document.createElement('div');
+      dot.className = `progress-dot ${i === 1 ? 'active' : ''}`;
+      dot.id = `dot-${i}`;
+      progressContainer.appendChild(dot);
+    }
+
+    const birthdayMelody = [
+      261.63, 261.63, 293.66, 261.63, 349.23, 329.63,
+      261.63, 261.63, 293.66, 261.63, 392.00, 349.23,
+      261.63, 261.63, 523.25, 440.00, 349.23, 329.63, 293.66,
+      466.16, 466.16, 440.00, 349.23, 392.00, 349.23
+    ];
+    let noteStep = 0;
+
+    function initWebAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) audioCtx = new AudioContext();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playSynthHarmonics() {
+      if (!audioCtx || !audioPlaying) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const freq = birthdayMelody[noteStep % birthdayMelody.length];
+        noteStep++;
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+        const vol = 0.06 + (currentChapter / TOTAL_CHAPTERS) * 0.12;
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(vol, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.65);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      initWebAudio();
+      audioPlaying = !audioPlaying;
+
+      if (audioPlaying) {
+        btnAudio.textContent = '♪';
+        btnAudio.style.borderColor = 'var(--gold-primary)';
+        bgAudioEl.play().catch(() => {
+          if (!synthTimer) synthTimer = setInterval(playSynthHarmonics, 450);
+        });
+      } else {
+        btnAudio.textContent = '🔇';
+        btnAudio.style.borderColor = 'rgba(245, 208, 97, 0.2)';
+        bgAudioEl.pause();
+        if (synthTimer) {
+          clearInterval(synthTimer);
+          synthTimer = null;
+        }
+      }
+    }
+
+    btnAudio.addEventListener('click', toggleSound);
+
+    function openCurtains() {
+      theatreViewport.classList.add('curtains-open');
+    }
+
+    function closeCurtains() {
+      theatreViewport.classList.remove('curtains-open');
+    }
+
+    // Major curtain milestone scenes
+    const curtainMilestoneChapters = [1, 4, 13, 20, 23, 25];
+
+    function updateHUD() {
+      chapterTag.textContent = chapterTitles[currentChapter - 1] || `CHAPTER ${currentChapter}`;
+      btnBack.classList.toggle('hidden', currentChapter === 1);
+
+      // Update dots
+      for (let i = 1; i <= TOTAL_CHAPTERS; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (dot) {
+          dot.className = 'progress-dot';
+          if (i === currentChapter) dot.classList.add('active');
+          else if (i < currentChapter) dot.classList.add('visited');
+        }
+      }
+
+      // Hide all contextual action buttons first
+      for (let i = 1; i <= TOTAL_CHAPTERS; i++) {
+        const btn = document.getElementById(`btn-act-${i}`);
+        if (btn) btn.classList.add('btn-hidden');
+      }
+
+      // Handle gated buttons
+      const currentActionBtn = document.getElementById(`btn-act-${currentChapter}`);
+      if (!currentActionBtn) return;
+
+      if (currentChapter === 16 && firefliesTouched < 3) {
+        currentActionBtn.classList.add('btn-hidden');
+      } else if (currentChapter === 19 && balloonsReleased < 2) {
+        currentActionBtn.classList.add('btn-hidden');
+      } else if (currentChapter === 20 && !letterOpened) {
+        currentActionBtn.classList.add('btn-hidden');
+      } else if (currentChapter === 24 && !candlesExtinguished) {
+        currentActionBtn.classList.add('btn-hidden');
+      } else {
+        currentActionBtn.classList.remove('btn-hidden');
+      }
+    }
+
+    function goToScene(targetChapter) {
+      if (targetChapter < 1 || targetChapter > TOTAL_CHAPTERS) return;
+
+      const prevEl = document.getElementById(`scene-${currentChapter}`);
+      const nextEl = document.getElementById(`scene-${targetChapter}`);
+
+      // Handle curtain behavior during major chapter shifts
+      if (curtainMilestoneChapters.includes(targetChapter) && targetChapter !== 1) {
+        closeCurtains();
+        setTimeout(openCurtains, 850);
+      } else if (targetChapter === 1) {
+        closeCurtains();
+      } else {
+        openCurtains();
+      }
+
+      if (prevEl) prevEl.classList.remove('active');
+
+      currentChapter = targetChapter;
+      updateHUD();
+
+      setTimeout(() => {
+        if (nextEl) nextEl.classList.add('active');
+        executeChapterSpecificEffects(currentChapter);
+      }, 200);
+    }
+
+    function nextChapter() {
+      createBurst(window.innerWidth / 2, window.innerHeight * 0.85, '#ffd700', 16);
+      if (currentChapter < TOTAL_CHAPTERS) {
+        goToScene(currentChapter + 1);
+      }
+    }
+
+    btnBack.addEventListener('click', () => {
+      if (currentChapter > 1) {
+        goToScene(currentChapter - 1);
+      }
+    });
+
+    // Handle Opening Curtains
+    function handleEntranceCurtainClick(btn) {
+      initWebAudio();
+      if (!audioPlaying) toggleSound();
+      
+      btn.style.opacity = '0';
+      btn.style.transform = 'scale(0.85)';
+      
+      createBurst(window.innerWidth / 2, window.innerHeight * 0.5, '#ffd700', 35);
+      openCurtains();
+
+      setTimeout(() => {
+        goToScene(2);
+      }, 1000);
+    }
+
+    function executeChapterSpecificEffects(chap) {
+      // Chapter 13: Light up pandal bulbs in sequence
+      if (chap === 13) {
+        const bulbs = document.querySelectorAll('.pandal-bulb');
+        bulbs.forEach((b, idx) => {
+          b.classList.remove('lit');
+          setTimeout(() => {
+            b.classList.add('lit');
+            createBurst(window.innerWidth / 2 + (idx - 3.5) * 38, window.innerHeight * 0.4, '#ffd700', 6);
+          }, idx * 220);
+        });
+      }
+
+      // Chapter 25: Grand Fireworks Finale
+      if (chap === 25) {
+        launchFireworksFinale();
+      }
+    }
+
+    // Hero Gift Boxes
+    function interactHeroGift(box, message) {
+      if (box.classList.contains('opened')) return;
+      box.classList.add('opened');
+      const msgEl = box.nextElementSibling;
+      if (msgEl) msgEl.textContent = `"${message}"`;
+      const rect = box.getBoundingClientRect();
+      createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, '#ffd700', 25);
+    }
+
+    function interactGrandGift(box) {
+      if (box.classList.contains('opened')) return;
+      box.classList.add('opened');
+      const msg = document.getElementById('grand-gift-msg');
+      if (msg) msg.textContent = "HAPPY BIRTHDAY KANCHAN MAHTHA ✨ 06 OCTOBER";
+      const rect = box.getBoundingClientRect();
+      createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, '#ffd700', 45);
+      createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, '#ff4081', 30);
+    }
+
+    // Wishing Fireflies Interaction
+    function touchFirefly(node, text) {
+      const popup = node.querySelector('.firefly-popup');
+      if (popup && !popup.classList.contains('show')) {
+        popup.classList.add('show');
+        firefliesTouched++;
+        const rect = node.getBoundingClientRect();
+        createBurst(rect.left + 16, rect.top + 16, '#fffb8f', 12);
+
+        const statusEl = document.getElementById('fireflies-status-text');
+        if (statusEl) {
+          if (firefliesTouched >= 3) {
+            statusEl.textContent = "Wishes ignited! You may now release the wish ✨";
+            const btn16 = document.getElementById('btn-act-16');
+            if (btn16) btn16.classList.remove('btn-hidden');
+          } else {
+            statusEl.textContent = `${3 - firefliesTouched} more firefly needed...`;
+          }
+        }
+      }
+    }
+
+    // Balloons Interaction
+    function popBalloon(balloon) {
+      if (balloon.classList.contains('floated')) return;
+      balloon.classList.add('floated');
+      balloonsReleased++;
+      const rect = balloon.getBoundingClientRect();
+      createBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, '#ff80ab', 20);
+
+      const statusEl = document.getElementById('balloon-status-text');
+      if (statusEl) {
+        if (balloonsReleased >= 2) {
+          statusEl.textContent = "The night sky is glowing with your wishes ✨";
+          const btn19 = document.getElementById('btn-act-19');
+          if (btn19) btn19.classList.remove('btn-hidden');
+        } else {
+          statusEl.textContent = "Release 1 more balloon...";
+        }
+      }
+    }
+
+    // Letter Interaction
+    function openParchmentLetter() {
+      letterOpened = true;
+      document.getElementById('letter-closed-view').style.display = 'none';
+      document.getElementById('letter-open-view').style.display = 'block';
+      createBurst(window.innerWidth / 2, window.innerHeight * 0.45, '#ffd700', 30);
+      const btn20 = document.getElementById('btn-act-20');
+      if (btn20) btn20.classList.remove('btn-hidden');
+    }
+
+    // Birthday Cake Interaction
+    function blowCakeCandles(btn) {
+      candlesExtinguished = true;
+      const flames = document.querySelectorAll('.candle-flame');
+      flames.forEach(f => f.classList.add('extinguished'));
+      btn.style.display = 'none';
+
+      createBurst(window.innerWidth / 2, window.innerHeight * 0.42, '#ffffff', 25);
+      createBurst(window.innerWidth / 2, window.innerHeight * 0.42, '#ffd700', 40);
+
+      const btn24 = document.getElementById('btn-act-24');
+      if (btn24) {
+        btn24.classList.remove('btn-hidden');
+        btn24.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    let portraitAttempt = 0;
+    const portraitFallbackExtensions = ['26.jpg', '26.jpeg', '26.webp'];
+
+    function portraitLoadError(img) {
+      if (portraitAttempt < portraitFallbackExtensions.length) {
+        const nextSrc = portraitFallbackExtensions[portraitAttempt];
+        portraitAttempt++;
+        img.src = nextSrc;
+      } else {
+        img.style.display = 'none';
+        const fallback = document.getElementById('portrait-placeholder');
+        if (fallback) fallback.style.display = 'flex';
+      }
+    }
+
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const fireworks = [];
+
+    class Particle {
+      constructor(x, y, color, speed, size) {
+        this.x = x || Math.random() * width;
+        this.y = y || Math.random() * height;
+        this.color = color || (Math.random() > 0.5 ? '#ffd700' : '#ffb6c1');
+        this.size = size || Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * (speed || 1.2);
+        this.speedY = Math.random() * (speed || 1.4) + 0.4;
+        this.alpha = Math.random() * 0.8 + 0.2;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotSpeed = (Math.random() - 0.5) * 0.04;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.rotation += this.rotSpeed;
+        if (this.y > height + 20) {
+          this.y = -10;
+          this.x = Math.random() * width;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size, this.size * 1.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 40; i++) {
+      particles.push(new Particle(null, null, '#ffd700', 0.8, Math.random() * 2.5 + 1));
+      particles.push(new Particle(null, null, '#ffccd5', 1.1, Math.random() * 3.5 + 1.5));
+    }
+
+    function createBurst(x, y, color, count) {
+      for (let i = 0; i < count; i++) {
+        const p = new Particle(x, y, color, 4, Math.random() * 3.5 + 1);
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 5 + 1.5;
+        p.speedX = Math.cos(angle) * velocity;
+        p.speedY = Math.sin(angle) * velocity;
+        p.decay = 0.02;
+        particles.push(p);
+      }
+    }
+
+    class Firework {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.sparks = [];
+        const colors = ['#ffd700', '#ff4081', '#7c4dff', '#00e5ff', '#fff'];
+        const chosen = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < 40; i++) {
+          const angle = (Math.PI * 2 * i) / 40;
+          const speed = Math.random() * 4 + 2;
+          this.sparks.push({
+            x: this.x, y: this.y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1, color: chosen, size: Math.random() * 2.5 + 1.5
+          });
+        }
+      }
+      update() {
+        for (let s of this.sparks) {
+          s.x += s.vx;
+          s.y += s.vy;
+          s.vy += 0.04;
+          s.alpha -= 0.018;
+        }
+        this.sparks = this.sparks.filter(s => s.alpha > 0);
+      }
+      draw() {
+        for (let s of this.sparks) {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, s.alpha);
+          ctx.fillStyle = s.color;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+    }
+
+    function launchFireworksFinale() {
+      for (let i = 0; i < 7; i++) {
+        setTimeout(() => {
+          fireworks.push(new Firework(
+            Math.random() * (width * 0.7) + (width * 0.15),
+            Math.random() * (height * 0.4) + (height * 0.15)
+          ));
+        }, i * 260);
+      }
+    }
+
+    function renderFX() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        fireworks[i].update();
+        fireworks[i].draw();
+        if (fireworks[i].sparks.length === 0) fireworks.splice(i, 1);
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].decay) {
+          particles[i].alpha -= particles[i].decay;
+          if (particles[i].alpha <= 0) {
+            particles.splice(i, 1);
+            i--;
+          }
+        }
+      }
+
+      requestAnimationFrame(renderFX);
+    }
+
+    renderFX();
+    updateHUD();
+  </script>
+</body>
+</html>
+```
